@@ -1,0 +1,42 @@
+--- 
+title: "Openlayers: Layer   ve  Marker Overlay  Ekleme "
+wordpress_url: http://blog.4primes.com/?p=288
+layout: post
+date: 2011-07-15 16:38:38 +03:00
+wordpress_id: 288
+---
+Openlayers ile geliştirdiğimiz  harita uygulamalarında  tanımladığımız wms tipindeki  değişkene atadığımız harita ve katman tipi,  uygulamada  BaseLayer olarak karşımıza çıkacaktır. Oysa biz aynı uygulama üzerinde  farklı  tipte haritalar veya aynı haritanın farklı tiplerdeki katmanlarını kullanma ihtiyacı duyabiliriz. O halde, aklımıza,  bu katmanları sağ taraftaki seçim paneline nasıl ekleyeceğimiz sorusu  gelir. Daha önce katman tanımlamaya değindiğimiz için bu konuyu tekrar değerlendirmeyeceğiz. Alttaki kodları inceleyelim.
+
+
+[sourcecode language="javascript"]
+yahooLayer = new OpenLayers.Layer.Yahoo( "Yahoo");  
+map.addLayer(yahooLayer);                                  
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+[/sourcecode]
+
+Birinci satır yeni bir layer tanımlamak için yazıldı. İkinci ve üçüncü satırlar ise birlikte çalışan bir ekleme mekanizması olarak düşünülebilir  ve seçim paneline yeni  katmanımızı eklememizi sağlarlar.
+
+Şimdi de overlay den  bahsedelim. Overlay (kaplama) , “ openlayers”  ‘ in clientside(istemci taraflı)  yani sunucudan bağımsız olmasının verdiği bir avantaj olarak değerlendirilebilir.  Biz bu durumu bir kaplama tipi olan  “marker”(işaret)   kaplama örneğiyle inceleyelim. Örneğimiz  2 çeşit işareleyici  içersin. Bu işaretleyici kaplamaları, Türkiye haritası üzerinde  büyük ve küçük şehirleri  ayırsın.  Önce 12 satırlık kod bloğuna  bir göz atalım.
+
+[sourcecode language="javascript"]
+var markers = new OpenLayers.Layer.Markers( "Büyükşehirler" );  
+var markers2 = new OpenLayers.Layer.Markers( "Küçükşehirler" );
+map.addLayer(markers);    
+map.addLayer(markers2);
+var size = new OpenLayers.Size(13,13);
+var offset = new OpenLayers.Pixel(-(size.w/2), -size.h);
+var icon = new OpenLayers.Icon('http://www.openlayers.org/dev/img/marker.png', size, offset);
+markers2.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(39.8,41),icon));
+markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(33,40),icon.clone()));   
+markers2.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(26.5,41.2),icon.clone()));  
+markers.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(31,37),icon.clone()));    
+markers2.addMarker(new OpenLayers.Marker(new OpenLayers.LonLat(26.4,40),icon.clone()));    
+markers.addMarker(marker); 
+map.addControl(new OpenLayers.Control.LayerSwitcher           
+markers2.addMarker(marker);             
+map.addControl(new OpenLayers.Control.LayerSwitcher());
+[/sourcecode]
+          
+Birinci  ve ikinci satırlar  işaretçileri tanımlamak ve bunlara ilişkili isimleri vermek  için kullanıldı.Üçüncü ve dördüncü satırlar bu işaretçileri haritalarla bütünledi.  Beşinci ve altıncı satırlar işaretçilerin fiziksel özellikleri  için kullanıldı. Yedinci satır işaretçinin tipini atadı. Sekizinci satırdaki kod aldığı parametrelere  -enlem,boylam-  ikon koydu.  Artık bu overlay birimlerini seçim paneli üzerinde görebilir ve birbirinden bağımsız olarak kontrol edebilirsiniz.   
+
+     

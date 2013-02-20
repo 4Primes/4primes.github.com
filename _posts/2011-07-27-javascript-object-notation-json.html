@@ -1,0 +1,74 @@
+--- 
+title: Javascript Object Notation (JSON)
+wordpress_url: http://blog.4primes.com/?p=487
+layout: post
+date: 2011-07-27 07:55:43 +03:00
+wordpress_id: 487
+---
+Kelime anlamı olarak Javascript Object Notation anlamına gelen JSON teknolojisinin, kullanımı son zamanlarda oldukça yaygınlaşmıştır. JSON, bir dil değildir. Dil ile iç içe geçmiş yapısı nedeniyle bu şekilde yorumlanıyor olsa da JSON, Javascript’in bir alt kümesi olup dillerin yeteneklerini artıran ve onları destekleyen bir yazım tarzıdır.
+XML gibi içerik katagorilemede kullanılan JSON ortaya çıktığı günden itibaren özellikle özellikle AJAX uygulamalarında XML’i arka planda bırakmıştır. XML’i insanlar ya da bilgi işlem sistemleri tarafından kolayca okunabilecek dokümanlar oluşturmaya yarayan bir standart veya veri saklamanın yanında farklı sistemler arasında veri alışverişi yapmaya yarayan bir ara format olarak tanımlayabiliriz. 
+Bir XML ve bir de JSON örneği alıp uzunlukları, yazılışları ve okunuşları konusundaki farklılıklarını görelim:
+XML örneği:
+[sourcecode language="xml"] 
+<musteriler>
+    <musteri>
+        <kod>120.01.001</kod>
+        <ad>Microsoft</ad>
+        <unvan>Microsoft AŞ.</unvan>
+    </musteri>
+    <musteri>
+        <kod>120.01.002</kod>
+        <ad>Google</ad>
+        <unvan>Google AŞ.</unvan>
+    </musteri>
+    <musteri>
+        <kod>120.01.003</kod>
+        <ad>Yahoo</ad>
+        <unvan>Yahoo AŞ.</unvan>
+    </musteri>
+    <musteri>
+        <kod>120.01.004</kod>
+        <ad>Apple</ad>
+        <unvan>Apple AŞ.</unvan>
+    </musteri>
+</musteriler>
+[/sourcecode]
+Ve bu örneğin JSON formatıyla yazılmış hali:
+
+[sourcecode language="javascript"] 
+{musteriler:[
+    {
+       "kod":"120.01.001",
+       "ad"="Microsoft",
+       "unvan"="Microsoft AŞ",
+    }
+    {
+       "kod":"120.01.002",
+       "ad"="Google",
+       "unvan"="Google AŞ",
+    }
+    {
+       "kod":"120.01.003",
+       "ad"="Yahoo",
+       "unvan"="Yahoo AŞ",
+    }
+    {
+       "kod":"120.01.004",
+       "ad"="Apple",
+       "unvan"="Apple AŞ",
+    }
+]}
+[/sourcecode] 
+
+
+JSON’ın avantajlarına bakacak olursak:
+
+•	Örneklerin text olarak kaydedilmiş hallerine bakarsak JSON formatındakinin daha az yer kapladığı görülür. Bu iki örnek için çok da önemli bir fark olmasa da gerçek uygulamalarımızda binlerce nesne yüklü olduğunu düşünürsek aralarındaki fark iyice belirginleşecektir.
+•	Aynı kodun XML şekline göre oldukça kısadır.
+•	Kodun yazılması ve okunmasını kolaylaştırır.
+•	Gereksiz işaretlemelerle  (taglar) uğraştırmaz.
+•	Javascript’in alt kümesi olmasına rağmen dilden bağımsızdır.
+•	Yapı olarak XML’e çok benzer,  XML de JSON gibi çoğu programla dili ile etkin bir şekilde kullanılabilir. Ama JSON çok daha hızlıdır.
+•	Elinizdeki bir JSON ifadeyi kodunuzun içine yapıştırıp bir değişkene set ederek direkt kullanabilirsiniz XML’deki gibi karmaşık  ‘parse’ işlemine gerek olmayıp kullanımı hazırdır.
+Benim yazım JSON hakkında sadece genel bilgiler veriyor. Daha ayrıntılı bilgi için <a href="http://json.org/json-tr.html" title="json" target="_blank">burayı</a> inceleyebilirsiniz.
+

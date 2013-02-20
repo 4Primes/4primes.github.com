@@ -1,0 +1,108 @@
+--- 
+title: Haskell ile Programlama 2
+wordpress_url: http://blog.4primes.com/?p=609
+layout: post
+date: 2011-08-08 00:52:49 +03:00
+wordpress_id: 609
+---
+<strong>Haskell'de Koşullu İfadeler</strong>
+Haskell'de her if'in bir else'i olmak zorundadır.
+örnek kullanım:
+[sourcecode lang="c"] 
+f n = if n >= 20
+      then n+5
+      else n-5
+[/sourcecode] 
+Haskell'de else if kullanımı da mevcuttur. Ayrıca Haskell'de (!=) eşit değil ifadesi  (/=) şeklinde kullanılır.
+<strong>Kontrollü Denklemler</strong>
+Çalışma mantığı C'deki switch ve if karışımıdır.
+[sourcecode lang="c"] 
+f n | n > 25 = -n
+    | n > 0  = n*n
+    | otherwise = 2*n
+[/sourcecode] 
+Burada otherwise switch'in default yapısıyla aynı işi yapar. n = 26 için kontrolun ikisi doğru da olsa Haskell'de üstte yazılan öncelikli olduğundan sadece üstteki çalışır. Bu yüzden Haskell'de fonksiyon yazarken üste neyi yazdığımıza dikkat etmeliyiz. İleride özyinelemeli fonksiyon yazarken bu kurala neden dikkat etmemiz gerektiği anlaşılacaktır.
+Haskell'de '_' işleci herhangi bir şey anlamına gelir. Örnek olarak;
+[sourcecode lang="c"] _ && False = False[/sourcecode]
+Bu ifade False neyle AND'lenirse AND'lensin False üretir demektir ve bizi fazladan bir ifade yazmaktan kurtarır.
+Başka bir kullanımı ise;
+[sourcecode lang="c"] head (x:_) = x[/sourcecode]
+Burada gelen dizinin ilk elemanı döndüreleceği için geriye kalan dizinin ne olduğunu önemli değildir. Bu ifade ayrıca fonksiyonumuza doğrudan ilk elemanı da almamıza sağlar.
+[sourcecode lang="c"]f (x:xs) = x*3[/sourcecode]
+şeklinde örneklendirebiliriz. (x:xs) yapısı parantezsiz kullanılamaz.
+<strong>Lambda İfadeleri</strong>
+Bu ifadeyi isimsiz fonksiyon olarak adlandırabiliriz. Kullanım amacı yazdığımız fonksiyonun içine kısa bir başka fonksiyon yerleştirmemizi sağlar.
+Kullanımı:
+[sourcecode lang="c"] \x->x*5[/sourcecode]
+şeklinde olup x'i 5 ile çarpan bir fonksiyondur. Dah büyük bir örnekte açıklamadan önce map anahtar kelimesini tanıtalım.
+<strong>map :</strong> Verilen bir fonksiyonu bütün liste üzerine uygular. Kısaca bütün listenin üzerinde dolaşmamızı sağlar.
+[sourcecode lang="c"] 
+fonksiyon xs = map f xs
+              where
+                f x = x * 5
+[/sourcecode] 
+Yukarıdaki örneğin aynısını lambda ifadesiyle yapsaydık daha kısa olurdu.
+[sourcecode lang="c"] 
+fonksiyon xs = map (\x->x*5) xs
+[/sourcecode] 
+<strong>İşleçlerin Parantez İçinde Kullanılması</strong>
+1+2 yerine (+) 1 2 şeklinde yazabilmemiz anlamına gelir. Öncelikle belirteyim ki parantezin içine istersek sayıda yazabiliriz. Yani (+2) 1 gibi. Sayının yeri işlece göre önem taşımaktadır. (/2) 4 ifadesiyle (2/) 4 ifadesi aynı sonucu üretmez. Ne işimize yarar ki diyenler için;
+[sourcecode lang="c"]map (^2) [1..5][/sourcecode]
+[sourcecode lang="c"]map (2^) [1..5][/sourcecode]
+Şeklinde listeler üzerinde kolayca işlem yapabilmemize yarar.
+<strong>Lists Comprehensions</strong>(anlamlama, idrak)
+[sourcecode lang="c"] fonksiyon xs = [ x*x | x <- xs ][/sourcecode]
+Eski listeden istediğimiz şekilde yeni bir liste oluşturmamıza yarar. | işaretinden önceki kısım yeni listemizi oluşturur. Diğer kısımsa eski listeden elaman seçmeye yarar. Ayrıca bu kısım döngü olarak da kullanılabilir. Ya da istersek koşul ifadesi koyarak koşullu bir seçmeyle yeni liste oluşturabiliriz.
+[sourcecode lang="c"] fonksiyon2 xs = [ x | x <- xs, y <-[1..x], mod x 3 == 0][/sourcecode]
+Bu kod parçası 3'ün katı olan sayıları kendisi kadar tekrar ederek listeye yazar.
+Main&gt;fonksiyon2 [1..9]
+[3,3,3,6,6,6,6,6,6,9,9,9,9,9,9,9,9,9]
+Sonucunu üretir.
+<strong>zip :</strong>İki listeyi eleman sayısı az olanın eleman sayısı kadar tuple yapmaya yarar.
+[sourcecode lang="c"]zip ['x','y','z'] [1..5][/sourcecode]
+Yukarıdaki örnek [('x',1),('y',2),('z',3)] üretir.
+<strong>zipWith :</strong>zip ile aynı şekilde çalışma mantığına sahip fakat üçüncü bir argüman olarak işleç alır ve iki  listeyi o şekilde birleştirir. ZipWith aynı anda char ve sayı alamaz.
+Ayrıca zipWith'in aldığı listelerden en azından birinin tüm elemanları yazılı olmalıdır. Yani aşağıdaki örnek için [5..3] listesi kullanılmaz.
+[sourcecode lang="c"]zipWith (*) [1..] [5,4,3][/sourcecode]
+Yukarıdaki örnek [5,8,9] üretir.
+<strong>replicate :</strong>verilen bir listeyi ve ya sayıyı istenen sayıda tekrarlar.
+Kullanımı replicate tekrar_sayısı tekrar_edilecek_olan
+[sourcecode lang="c"] fonksiyon2 xs = [ replicate x x | x <- xs, mod x 3 == 0][/sourcecode]
+Yukarıdaki örnek [[3,3,3],[6,6,6,6,6,6],[9,9,9,9,9,9,9,9,9]] üretir.
+Listelerin iç içe olma sebebi replicate'ten kaynaklanır. Tekrar ettiğini liste içine alır.
+Not : String listeleri içinde list comprehension ifadeleri kullanılabilir.
+<strong>Özyinelemeli Fonksiyonlar</strong>
+Bu konuyu bir örnekle açıklamak istiyorum.
+Soru :Verilen sayının rakamları toplamını bulan bir fonksiyon yazınız.
+[sourcecode lang="c"] 
+sayiTopla 0 = 0     
+sayiTopla x = (mod x 10) + sayiTopla (div x 10)
+[/sourcecode] 
+Main&gt;sayiTopla 987654321
+45
+Yukarıda bahsetmiş olduğum üste yazma durumunu burada görüyoruz. Eğer "sayiTopla 0 = 0" ifadesini yazılmasaydık ve ya üste yazmasaydık fonksiyon asla sonlanmazdı.
+<strong>Örnekler</strong>
+<strong>1-)</strong>1000'den 10000'e kadar olan palindromik sayıları bulan fonksiyon yazalım.
+[sourcecode lang="c"] 
+palindrome = [ x | x<-[1000..10000],knt x]
+            where
+              knt x = (div x 100)==(mod x 10)*10+(div (mod x 100) 10)
+[/sourcecode] 
+Anlaşılırlığı arttırmak için kontrol ifadesini list comprehension'dan çıkardım siz isterseniz knt'nin yerine knt'nin içeriğini yazabilirsiniz.
+<strong>2-)</strong>Aynı soru için tüm rakamları 5'ten büyükleri almak isteseydik ne yapardık sorusunu cevaplayalım.
+[sourcecode lang="c"]
+allTrue [] = True
+allTrue (x:xs) = x && allTrue xs 
+knt2 x = allTrue[ y>5 | y<-xs ]
+         where
+          xs = basamak x
+basamak 0 = []
+basamak = [mod x 10] ++ basamak (div x 10)
+palindrome = [ x | x<-[1000..10000],knt x && knt2 x]
+            where
+              knt x = (div x 100)==(mod x 10)*10+(div (mod x 100) 10)
+[/sourcecode] 
+Bu kod optime edilmekten daha çok nasıl bir çok fonksiyonu birarada kullanabilirim düşüncesiyle yazıldığından optime değildir. basamak 0 = [] dedik çünkü basamak fonksiyonu sayı alıp liste döndürüyor. allTrue fonksiyonuysa liste alıyor True ve ya False değerini döndürüyor o yüzden allTrue [] = True dedik. Ayrıca kontrol ifadesi olarak birden çok ifade kullandık ve bunları tek sonuç için mantıksal AND ile birleştirdik.
+<a href="http://blog.4primes.com/2011/07/haskell-ile-programlama-1/">Bir önceki Haskell anlatımı için tıklayınız</a>
+
+

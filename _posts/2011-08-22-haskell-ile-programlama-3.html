@@ -1,0 +1,115 @@
+--- 
+title: Haskell ile Programlama 3
+wordpress_url: http://blog.4primes.com/?p=682
+layout: post
+date: 2011-08-22 20:42:17 +03:00
+wordpress_id: 682
+---
+<strong>Higher-Order Fonksiyonlar</strong>
+Eğer bir fonksiyon argüman olarak fonksiyon alıyorsa o fonksiyona higher-order fonksiyon denir.
+Örnek olarak geçen yazıda bahsettiğim map fonksiyonunu verebiliriz.
+[sourcecode language="c"]Hugs> Map (\x->x^2+2) [1,3..7]
+[3, 6, 11, 27, 51]
+twice f x = f ( f x )
+Hugs> twice tail [2..5]
+[4,5][/sourcecode]
+<strong>Fitler Fonksiyonu</strong>
+Bool değer döndüren fonksiyonları alır ve true değerine sahip elemanları alır.
+[sourcecode language="c"]Fitler f xs = [ x | x<-xs, f x ][/sourcecode] şeklinde çalışır.
+<strong>Even :</strong> çift sayılar true değer döndürür.
+<strong>Odd:</strong> tek sayılar için true değer döndürür.
+[sourcecode language="c"] Hugs> filter even [1..10]
+[2,4,6,8,10]
+Hugs> map even [1..5]
+[False,True,False,True,False][/sourcecode]
+<strong>Foldr Fonksiyonu</strong>
+Kendisine verilen diziye, verilen elemanla başlayarak verilen fonksiyonu uygular. Geriye bir dizi değil bir değer döndürür. Fonksiyonun ismindeki “r” right’ın r’sidir. Bu yüzden verilen tek eleman sağa yazılır ve işlemler sağdan başlanır. Bu yüzden dizi döndürecek bir fonksiyonla kullanılamaz. (Buradaki örnekte (\x-&gt;x^2) kullanmaya çalışmak olur.)Bir örnekle açıklamak gerekirse;
+[sourcecode language="c"]Hugs> foldr (\x y->x^2+y ) 0 [1..5]
+55[/sourcecode]
+Çalışma şekli;
+<pre>    1        2       3        4        5       0
+I-                                     x       y
+II-                           x        y
+III-                 x        y
+IV-         x        y
+V-  x       y
+Sonuç =y</pre>
+Burada x’ler sadece altında olan sayıyı alırken y toplama işleminden dolayı kendisini miras alır ve x’ten çıkan sonuçla toplanır.
+<pre>y=x^2+y
+<strong>I-</strong>y=0,x=5
+y=5^2+0
+y=25
+<strong>II-</strong>Y=4^2+25
+y=41
+<strong>III-</strong>y=3^2+41
+y=50
+<strong>IV-</strong>y=2^2+50
+y=54
+<strong>V-</strong>y=1^2+54
+y=55</pre>
+[sourcecode language="c"]Foldr (\x y->x^2) 0 [1..3][/sourcecode]
+Burada y kendisiyle toplanmadığından gördüğümüz üzere sonuç;
+<em>y=1^1 yani 1 olacaktır.</em>
+<strong>Foldl Fonksiyonu</strong>
+Verilen değer en sola yazılır ve işlemlere soldan başlanır. “l” left’in l’sini simgeler.
+[sourcecode language="c"]Hugs> foldl (\x y->x^2+y) 0 [1..5]
+21909[/sourcecode]
+Çalışma şekli;
+<pre>     0     1     2     3     4    5
+I-   x     y
+II-        x     y
+III-             x     y
+IV-                    x     y
+V-                           x    y</pre>
+Burada da yine değişkenler altlarında bulundukları sayıları alırlar. Dikkat ederseniz bu sefer x y’nin altında olduğundan y’nin sahip olduğu değeri alacaktır.
+<pre>y=x^2+y
+<strong>I-</strong>y=0^2+1
+y=1,x=y
+<strong>II-</strong>y=1^2+2
+y=3,x=y
+<strong>III-</strong>y=3^2+3
+y=12,x=y
+<strong>IV-</strong>y=12^2+4
+y=148,x=y
+<strong>V-</strong>Y=48^2+5
+Y=21909</pre>
+<strong>Diğer Fonksiyonlar</strong>
+<strong>All:</strong> Listenin tamamı verilen koşulu sağlıyorsa True, sağlamıyorsa False döndürür.
+[sourcecode language="c"]Hugs> all even [2,4..10]
+True
+Hugs> all even [2,4..11]
+True[/sourcecode]
+Burada neden 11 değeri varken True döndürdü sorusunun cevabı artış miktarı 2 olduğundan ve 11’e ulaşmak mümkün olmadığından kendisinden önceki elemanda liste son bulur. listeye.[2,4..11]=[2,4..10]
+<strong>Any:</strong>Listenin tek elemanı bile koşulu sağlıyorsa True değerini üretir.
+[sourcecode language="c"]Hugs> any odd [1,2,4,6,8]
+True[/sourcecode]
+<strong>takeWhile:</strong> Koşulu sağlamayan ilk elemandan öncesini seçer.
+[sourcecode language="c"]Hugs> takeWhile even [2,4,6,7,8,10,12]
+[2,4,6]
+Hugs> takeWhile (/=6) [2,4,6,7,8,10,12]
+[2,4]
+Hugs> takeWhile (==6) [2,4,6,7,8,10,12]
+[][/sourcecode]
+<strong>dropWhile:</strong> Koşulu sağlamayan ilk elemandan sonrasını seçer.
+[sourcecode language="c"]Hugs> dropWhile even [2,4,6,7,8,10,12]
+[7,8,10,12]
+Hugs> dropWhile (/=6) [2,4,6,7,8,10,12]
+[6,7,8,10,12]
+Hugs> dropWhile (==6) [2,4,6,7,8,10,12]
+[2,4,6,7,8,10,12][/sourcecode]
+
+<strong>ProjectEuler 22. Sorunun Çözümü</strong>
+Soru bizden verilen text dosyasının içindeki ismlerin alfabetik olarak sıralanıp, A=1 olmak üzere her harfe sayısal karşılık verilip, kelimenin harf toplamının, kelimenin dosyadaki sırasıyla çarpılıp, çıkan sonuçların toplanmasını istiyor.
+[sourcecode language="c"]import List (sort)
+import Char (ord)
+isimler = ["MARY",..--Buraya sorudaki text dosyasının içeriğini yapıştırınız--..]
+klmTop = sum . (map (\c -> (ord c) - (ord 'A') + 1))
+soru22 = sum (zipWith (*) [1..] (map klmTop (sort isimler)))[/sourcecode]
+
+Özellikle bu soruyu seçtim çünkü şu ana kadar anlatmış olduğumdan çok farklı yapılar içeriyor.
+Öncelikle List ve Char classını import ediyoruz. Böylece ord ve sort fonksiyonlarını kullanıyoruz.
+(.) operatörü fonksiyonları birleştirmeye yarar. map fonksiyonunun yerine bir list comprehension kullanırsak nokta operatörünü kullanmaya gerek kalmazdı.
+sum . (map (\c -&gt; (ord c) - (ord 'A') + 1)) = sum [ (ord c) - (ord 'A') + 1 | c &lt;-x]
+sort verilen diziyi artan sırada sıralıyor. Burada alfabetik olarak sıralıyor.
+ord gelen char'ı ascii karşılığına dönüştürüyor.
+Buradaki bu özelliklerin tamamını gelecek yazıda anlatmayı planlıyorum.

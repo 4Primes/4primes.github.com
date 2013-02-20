@@ -1,0 +1,39 @@
+--- 
+title: "Openlayers: Otomatik Odaklanma"
+wordpress_url: http://blog.4primes.com/?p=296
+layout: post
+date: 2011-07-15 16:47:26 +03:00
+wordpress_id: 296
+---
+“Openlayers”  notasyonlarıyla  basit bir harita uygulaması yapmak isteyelim.  Öncelikle uygulamamıza,  üzerinde çalışacağımız, istediğimiz tip bir harita eklememiz gerekiyor.  Ekleyeceğimiz bu harita aynı zamanda bizim anakatmanımız(BaseLayer)  olacaktır. Uygulamada kullanacağımız bu kütüphane günümüzdeki tüm harita sunucularıyla işbiriği yapabilmektedir. Bunun nedeni  kütüphanenin  genele yönelik çalışma ilkesinden çok  sistemdeki  diğer  araçların aynı olmasıdır. Yani farklı da olsa sunucular zaten sistemin aynı tarafta yer alan parçalarıdır. Bu durumu kodlarla şu şekilde  <p><a name="C5">gösterebiliriz.</a></p>
+
+[sourcecode language="javascript"]
+ var map = new OpenLayers.Map('map');       
+ var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS",
+ "http://vmap0.tiles.osgeo.org/wms/vmap0", {layers: 'basic'} );
+ map.addLayer(wms);  //tanımlamayı uygulamaya ekler
+ map.zoomToMaxExtent();    //yakınlaşma için
+[/sourcecode]
+
+Burada  wms (web map sevice) tipi standart bir protokoldür. “wms”  ile bizler,  üzerinde çalışacağımız haritanın sunucusunu belirlerken,  tipini de belirleyebiliyoruz. Örneğin “googlemap “ ’ in haritasını seçmiş olsaydık tipinide belirtmemiz gerekirdi. Haritanın tipinden kastedilen katmanlarının vurguladığı temadır. O halde biz bir yol haritası istiyorsak kodun sonundaki katman belirleme  kısmına  ({layers: 'roadmap'} ))  yazabilirdik. (Önceki cümlede verilen  layer örneği  her sunucu için değişkendir ve farklı isimler alabilir, burada anlatımı güçlendirmek için başvurulmuştur.) 
+
+Şimdi asıl konumuza dönelim  ve bir örnekle devam edelim. Bizler  oluşturduğumuz uygulama çalıştığında,  otomatik Türkiye üzerine yakınlaşmasını istiyor olalım. Openlayers kütüphanesinde  bölgesel yakınlaşmak için birçok yol vardır. Şimdi düşünelim. 2 boyutlu uzayda yani düzlemde genişliği  ve uzunluğu sıfırdan faklı  bir alanı nasıl tanımlayabiliriz. Bu iş için bize en az 3 farklı nokta gerektiği aşikar. Bahsettiğimiz bir harita uygulaması olduğu için noktalar yerine enlemler ve boylamlardan bahsedeceğiz. Anlatacağımız ,  Türkiye üzerine odaklanmamızı sağlayacak kodlama da bu yaklaşımın bir ürünüdür.  Anlattıklarımızı şöyle  kodalayabiliriz.
+	
+[sourcecode language="javascript"]
+       var extent = new OpenLayers.Bounds(25, 29, 46, 49);   //odak noktası belirleme 
+       function init() {     var options = {           restrictedExtent: extent}
+       var  map = new OpenLayers.Map('map', options);   
+       var wms = new OpenLayers.Layer.WMS( "OpenLayers WMS", 
+       "http://vmap0.tiles.osgeo.org/wms/vmap0?",     {layers: 'basic'});
+       map.addLayers([wms]);
+       map.zoomToExtent(extent);   //türkiye odaklı açılır...
+[/sourcecode]
+
+Birinci satırdaki kod bizden odaklanacağı bölgenin,  sırasıyla;   solundan geçen boylamın, altından geçen paralelin,  sağından geçen meridyenin  ve üstünden geçen paralelin  sayısal değerlerini  ister. Bu iki meridyen arasındaki sayısal farkın , 2 paralel arasındaki sayısal farka  yakın olması (kare gibi)  bizlere daha rahat draft yapma imkanı sunabilir. Ayrıca, yukarıda bahsettiğimiz,  birbiriyle ilişkili olan soldaki değerlerin,  sağdaki değerlerden büyük olması;  başta draft  yapamama  olmak üzere birçok soruna önayak olabilir.
+
+Dikkat ederseniz ikinci ve üçüncü satırlardaki  kodlara  “options”  şeklinde bir  eklenti getirildi. Bu tanımlamalar sistematiktir;  bunlar  sayesinde biz haritamıza bir özellik katacağımızı bildirmiş  ve odaklama özelliği katmak için ilk prosedürü yerine getirmiş olduk.
+
+Yedinci  satırdaki      “map.zoomToExtent(extent);”    kod parçasıyla,  <a href="#C5">ilk verilen kod bloğu</a>nda  aynı özelliği sağlayan kod parçası arasında,  göze çarpan fark uygulamada  ufak bir değişikliğe sebep olur ki: İlk bloktaki kod  sol üst köşedeki   araç çubuğunda  bulunan küçük dünya ikonuna  tıklamadan odaklanmayı sağlamaz.
+
+<a href="http://openlayers.org"></a> 
+<a href="http://w3schools.com"></a>

@@ -1,0 +1,27 @@
+--- 
+title: "C Tarih\xC3\xA7esi"
+wordpress_url: http://blog.4primes.com/?p=698
+layout: post
+date: 2011-08-24 12:09:38 +03:00
+wordpress_id: 698
+---
+C temelde iki eski dile dayanır: BCPL ve B. BCPL, 1967 yılında Martin Richards tarafından işletim sistemleri ve derleyiciler yazmak için geliştirilmiştir. Ken Thompson, BCPL çalışmalarının ardından kendi yarattığı dil olan B’yi geliştirmiştir ve B ile UNIX’in ilk sürümleri üzerinde, Bell laboratuvarlarında, DEC PDP-7 bilgisayarı ile çalışmıştır. Bu iki dilde de, her veri hafızada bir “word”(16 bit) alan kaplamaktaydı ve değişkenlerin yazımı programcıya ağır bir yük getiriyordu.
+C dili, 1972’de bu çalışmaların izinde yine Bell Laboratuarlarında Dennis Ritchie tarafından DEC PDP-11 bilgisayarında geliştirilmiştir. C, BCPL ve B dillerinin önemli birçok kavramını kullanırken veri yazımı ve daha bir çok güçlü özellikleri de içerir. C, UNIX’in geliştirilmesinde kullanılmasıyla ün kazanmıştır. C dilinin adı B dilinden türemesinden gelir.(B dilinin isminin nereden geldiği hakkında kesin bir bilgi olmamakla çeşitli söylentiler vardır.)
+C’nin asıl yaygınlaşması 1978 yılında Kernighan ve Ritchie tarafından yazılan “The C Programming Language” adlı kitabın yayınlanmasından sonra olur. Bu kitap, ”How to Program C” kitabının yazarlarına göre gelmiş geçmiş en iyi bilgisayar kitabıdır.(DEITEL &amp; DEITEL)
+C’nin değişik tipte bilgisayarlarda(donanım platformlarında) yayılması, birbirine benzer ama genellikle uyumsuz birçok çeşidinin ortaya çıkmasına sebep olmuştur. Bu değişik platformlarda çalışacak kodlar yazan program geliştiricileri için ciddi bir problem haline gelmişti. Bu sebeplerden dolayı, C ‘nin standart bir sürümüne ihtiyaç duyulduğu anlaşıldı. 1983 yılında American National Standarts Committee’nin bilgisayar ve bilgi işlem komitesinde (X3), X3J11 adı altında teknik bir komite oluşturuldu ve C’nin sistem bağımsız tanımı yapıldı. 1989 yılında bu standart onaylandı ve 1999 yılında da tekrar gözden geçirildi.
+Gayri resmi Kernighan ve Ritchie Standartının değişiklikleri:
+1- struct veri tipi eklendi
+2- long int veri tipi eklendi
+3- unsigned int veri tipi eklendi
+4- =+ operatörü += olarak değiştirildi (çünkü =+ C’nin leksikal ayrıştırıcısının kafasını karıştırıyordu)
+C99′un yeni özellikleri şöyle özetlenebilir:
+1- for ve bu gibi yineleme ifadelerinde parantez içi ilk deklarasyonlara izin verilmesi.
+(Örneğin for(int i=0; i&lt;10; ++i) deyimi c99 da geçerli iken c89 da geçerli değildir…)
+2- inline fonksiyonlar.
+3- C++’da olduğu gibi artık değişkenler programın herhangi bir yerinde tanımlanabilirler.
+4- long long int, boolean, complex gibi yeni veri tipleri.
+5- değişken uzunluğa sahip diziler.
+6- C++’dan alınan, // ile başlayan tek satırlık program içi açıklamalar.
+7- snprintf() gibi yeni kütüphane fonksiyonları.
+Kaynakça:
+<a href="http://www.amazon.com/How-Program-5th-Paul-Deitel/dp/0132404168">How to Program C</a>

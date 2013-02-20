@@ -1,0 +1,16 @@
+--- 
+title: Java Persistence API (JPA)
+wordpress_url: http://blog.4primes.com/?p=469
+layout: post
+date: 2011-07-26 20:39:25 +03:00
+wordpress_id: 469
+---
+     JPA, veri erişimi işlemlerinde sıkça kullanılan Hibernate ve Toplink gibi ORM(Object Relational Mapping) araçlarını standart hale getirmektedir. EJB3 spesifikasyonunun bir parçası olan JPA, Java domain nesneleri ve veritabanı tabloları arasındaki bağlantıyı kurmaktadır. Yani JPA, ilişkisel verilerin Java nesneleriyle nasıl ilişkilendirileceği, bu nesnelerin ilişkisel veri tabanında daha sonra erişilmeye elverişli şekilde nasıl tutulacağı ve kullanılan uygulama sona erdikten sonra da varlığın devamlılığının nasıl sağlanacağı ile ilgilenir.
+     
+     Daha basitçe açıklamak gerekirse, uygulamanızı normalde kullandığınız veritabanından farklı bir veritabanına taşımanız gerekirse örneğin; MySQL kullandınız ve MsSQL'e taşımanız gerekiyor, işte o zaman JPA işe koyuluyor ve sizi bütün sıkıntılardan kurtarıyor. Peki bunu nasıl yapıyor? JPA veritabanınızla ilişki kurarken hangi veritabanının driverını gösterdiyseniz projenizi o veritabanıyla ilişkilendiriyor ve verilerinizi cok rahat bi şekilde veritabanına işliyor. Bunu da kendine özgü çok basit bi querylanguage kullanarak gerçekleştiriyor. Yani siz SELECT yapacağınız zaman, kendiniz bir query oluşturuyorsunuz ve bu tabi ki JPA'nın formatında bi query oluyor, sonrasında hangi veritabanını kullanmanız gerekirse, o veritabanının driverını JPA'ya gösterdikten sonra, JPA bütün ilişkilendirmeleri kendi içerisinde yapıyor.
+
+     JPA, java nesneleri ve ilişkisel veritabanı arasındaki eşlemeyi tanımlamak için metadata için kod içine yazılan annotationları veya xml tanımlayıcılarının kullanımı destekleyen eksiksiz bir nesne/ilişkisel eşleme belirtimi içermektedir. JPA'nın hedeflerini belirtmek gerekirse; ilişkisel veritabanı ve nesnelerin uyumluluğunun gücünü birleştirmek, platform yönteminden bağımsızlığı başarmak, taşınabilir uygulamalar için standart sağlamak, geliştirme ve upgrade stratejisini desteklemek ve multiple-user desteği sağlamak.
+
+     Tabi ki JPA'yı burada tüm ayrıntılarıyla anlatmam mümkün değil, ben daha fazlasını bilmek istiyorum, uygulamamda kullanmam gerekiyor ve İngilizceme güveniyorum diyenler olursa Java Enterprise Edition 6 Tutorial'ından <a href="http://download.oracle.com/javaee/6/tutorial/doc/gexaj.html#gexba">PDF'ine</a> erişebilirler.
+
+     İyi çalışmalar.

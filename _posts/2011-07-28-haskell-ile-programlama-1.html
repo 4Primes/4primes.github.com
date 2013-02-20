@@ -1,0 +1,78 @@
+--- 
+title: Haskell ile Programlama 1
+wordpress_url: http://blog.4primes.com/?p=504
+layout: post
+date: 2011-07-28 10:56:53 +03:00
+wordpress_id: 504
+---
+<strong>Neden Haskell?</strong>
+Bunu bir örnekle açıklamak istiyorum. Bazı C++ derleyicileri long long veri türünü tanımlamanıza izin vermez, yerine en fazla unsigned long tanımlar ve bunun da limiti 0’dan +4.294.967.296’ya kadardır. (Long ise -2147483648’den 2147483647’ye kadardır.) C++ derleyicisi olarak Visual Studio kullananlar biraz daha avantajlı çünkü long long tanımlayarak 19 haneli sayılarla işlem yapabilirler. Haskell’de ise böyle sınırlama yoktur.
+Şimdi örneğimize geçelim;
+Örneğimiz <a>ProjectEuler.net</a>’in 25 Ekim 2002’de yayınlamış olduğu 29. Sorusudur. Soruda bizden istenen 2&lt;=a&lt;=100, 2&lt;=b&lt;=100 olmak kaydıyla birbirinden farklı kaç tane a^b olduğudur.
+Sorunun çözüm algoritması olarak oluşturduğumuz sayıları listede tutup bu listeyi küçükten büyüğe doğru sıralarken aynı sayıların atılması şeklini ele alalım. Burada karşılaştırma yapmamız gereken 1000’e yakın sayı vardır. Bunların en küçüğü 2^4, en büyüğüyse 32 ve 64’ün ortak katı olan 2^480’dir. C++’ta da bu tarz sayıları listeler şeklinde tutabiliriz, karşılaştırabiliriz de ama bu kodu tam ve doğru yazmak ne kadar vaktimizi alır? Peki program sayıları parçalama gibi fazladan gelen işler sonucu ne kadarda hesaplar? Bunları bilemiyorum çünkü denemedim. Yerine kodu yazması 5 dakika, hesaplama süresi 7 saniye olan Haskell’i tercih ettim. (benim yavaş bilgisayarımda)
+Haskell’deki kodlar;
+[sourcecode language="c"]
+qsort [] = []
+qsort (x:xs) = qsort smaller ++ [x] ++ qsort larger
+              where
+                 smaller = [a | a <- xs, a < x ]
+                 larger  = [b | b <- xs, b > x ]  
+soru29 = length ( qsort [ a^b | a<-[2..100],b<-[2..100] ] )
+[/sourcecode]
+Kodları açıklamak gerekirse [ a^b | a&lt;-[2..100],b&lt;-[2..100] ]) ifadesi 2’den 100 kadar sayıların 2’den 100’e kadar olan tüm üslerini hesaplayıp listeye atmıştır. Qsort fonksiyonu özyinelemeli olarak sayıları sıralayan fonksiyondur. Fark edileceği üzere ne küçük ne büyük durumunda eşitlik yapılmamıştır dolayısıyla eşit olan sayılar atılmıştır. Length ise Haskell’in kendi bir anahtar kelimesi olup listelerin boyunu verir. WinHugs’ı bilgisayarına kurup, buradaki kodları txt dosyasına kaydedip dosyanın ismini haskell.hs şeklinde kaydettikten sonra cevabı görebilirsiniz.
+<strong>Haskell’deki Anahtar Kelimeler ve Kullanılışları</strong>
+<strong>tail</strong> : İlk elemanı atar. Tail [1,2,3,4,5] işlemi geriye [2,3,4,5] listeni döndürür.
+<strong>init</strong> : Son elemanı atar. İnit [1,2,3,4,5] işlemi geriye [1,2,3,4] listesini döndürür.
+<strong>head </strong>: Listenin ilk elemanı alır. Head [1..5] işlemi geriye 1 değerini döndürür.
+<strong>last</strong> : Listenin son elemanını alır. Last [1..5] işlemi geriye 5 değerini döndürür.
+<strong>!! işleci</strong> : Listenin istenilen sıradaki elemanını alır. [1..10] !! 7 işlemi geriye 8 değerini döndürür. Tuple’lar için kullanılamaz.
+<strong>take</strong> : Listeden istenilen sayıda elemanı baştan olmak kaydıyla alır. Take 3 [1..15] işlemi geriye [1,2,3] listesini döndürür.
+<strong>drop</strong>  : Listeden istenilen sayıda elemanı baştan olmak kaydıyla atar. drop 3 [1..15] işlemi geriye [4..15] listesini döndürür.
+<strong>length</strong> : Listenin uzunluğunu döndürür. Length [1..100] işlemi geriye 100 değerini döndürür.
+<strong>reverse</strong> : Listeyi ters çevirir. Reverse [1..10] işlemi geriye [10..1] listesini döndürür.
+<strong>sum</strong> : liste elemanlarını toplar. Sum [1..10] işlemi 55 değerini döndürür.
+<strong>product</strong> : liste elemanlarını toplar. Product [1..5] işlemi 120 değerini döndürür.
+<strong>div </strong>: tam sayı bazında bölme yapar. Div 10 3 işlemi 3 değerini hesaplar. Ayrıca 10 `div` 3 şeklinde de kullanılabilir.
+<strong>mod</strong>: adından da anlaşılacağı üzere mod hesaplar. Div şeklinde kullanılır.
+<strong>++ işleci</strong>: Listeleri birleştirir. [1..5] ++ [3..7] işlemi [1, 2, 3, 4, 5, 3, 4 ,5, 6, 7] listesini geriye dönüdür.
+<strong>not </strong>: Bool tipinin değerini terse çevirir. Not True işlemi False üretir.
+<strong>‘:’ işleci </strong>: Verilen elemanı listenin ilk elemanı olarak listeye ekler. 1:[2..5] işlemi geriye [1..5] listesini döndürür. Sondan kullanılamaz.
+<strong>Haskell’de Gramer</strong>
+Haskell’de fonksiyon gösterimleri fonksiyon a b şeklinde şeklindedir. Bu fonksiyon a ve b olmak üzere iki değer alır. Eğer alacağımız değerler üzerinde işlem yapacaksak, fonksiyon (a*3) (b+6) şeklinde yazmamız gerekir. Burada fonksiyon a olarak a*3 ifadesini, b olarak da b+5 ifadesini alır. Ayrıca fonskiyonlar küçük harfle başlamalıdır. F a+5 yazımı f 5 fonksiyonunu hesaplayıp 5 ile toplayacaktır.
+Where ifadesiyse fonksiyonların içinde tanımlama yapmayı sağlar. Kullanımı;
+[sourcecode language="c"]
+fonksiyon x = [1..x] ++ [a..b]
+         where
+           a = div x 3
+           b = x*5 
+[/sourcecode]
+where altındaki ifadelerde atama işleçleri(‘=’ ) aynı hizada olmak zorundadır.
+Listeler(listeler) aynı tipten değerlerden oluşmak zorundadır.[1, 2, 3], [‘a’, ’b’, ’c’] gibi.
+Tuplelar ise karışık olabilir. ( False, 3, ’a’) gibi.
+“hakan sönmez” şeklinde yazılarak string yazılabilir. Listeler gibi kullanılır. “hakan sönmez” !! 3 işlemi ‘a’ karakterini geriye döndürür. 
+<strong>İlk Örnekler</strong>
+Yazılan fonksiyonlar ‘.hs’ uzantılı bir metin belgesi içine yazılıp haskell’e yüklenmelidir.
+Verilen sayının karesini alan fonksiyon yazalım.
+<code><pre>kare x = x*x</pre></code>
+Main&gt; kare 2
+4
+Bu kadar basittir bir fonksiyon yazımı haskell’de. Şimdi verilen listenin ilk elemanıyla son elemanı arasındaki farkı hesaplayan fonksiyon yazalım.
+<code><pre>fark xs = head xs - last xs</pre></code>
+Main&gt; fark [3,5,4,7]
+-4
+Ya da bu elemanların yerini değiştiren bir fonksiyon yazalım.
+<code><pre>degistir xs = last xs : (init (tail xs)) ++ [head xs]</pre></code>
+Main&gt; degistir [1..5]
+[5,2,3,4,1]
+Head xs’den gelen elemanı xs listesine eklemek için tek elemanlı liste haline getirilmiştir [ ] parantezleriyle. Aynısını last için de yapabilirdik.
+Verilen indisteki elemanı listeden çıkaran bir fonksiyon yazalım.
+<code><pre>fDel xs x = take x xs ++ drop (x+1) xs</pre></code>
+Main&gt; fDel [2..10] 5
+[2,3,4,5,6,8,9,10]
+Bir listenin indisleri verilen iki elemanını yer değiştiren fonksiyon yazalım.(İndisler artan sırada veriliyor.)
+<code><pre>fExc xs a b = take a xs ++ [xs !! b] ++ drop (a+1) (take b xs) ++ [xs !! a] ++ drop (b+1) xs</pre></code>
+Main&gt; fExc [2..10] 3 7
+[2,3,4,9,6,7,8,5,10]
+Listenin indislemesi sıfırdan başladığı için take a xs listenin ilk a elemanını alarak a indisli elemanı almaz. Buraya b indisli eleman gelmesi gerektiği için [xs!!b]‘yi kullanırız. Şimdi a indisli elemanda dahil olmak üzere öncesi çıkarılmalı, b indisinin öncesi alınmalıdır. Bunun için önce b’ye kadarını alır sonra buradan (a+1) tane elemanı çıkarırız.Devamına a indisli eleman konur [xs!!a]. En son da b indisinden sonraki elemanlar alınarak diziye eklenir drop (b+1) xs.
+Not : Son iki örnek KTÜ Bilgisayar Mühendisliği Programlama Dilleri 2011 1. Arasınav sorusudur.
+Not : Buradaki her şey WinHugs'a uyumlu yazılmıştır, elinizde GHC varsa çalışmayabilir.

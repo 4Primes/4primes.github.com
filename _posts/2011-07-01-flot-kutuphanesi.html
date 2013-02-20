@@ -1,0 +1,158 @@
+--- 
+title: "Flot k\xC3\xBCt\xC3\xBCphanesi"
+wordpress_url: http://blog.4primes.com/?p=109
+layout: post
+date: 2011-07-01 00:10:54 +03:00
+wordpress_id: 109
+---
+<p style="text-align: left">Flot kütüphanesi hakkında basitçe bir açıklama yapılması gerekirse javascript için yapılmıs bir çizim kütüphanesi denilebilir. Projenin github kullanılarak yapılması da kanımızın ısınması için baska bi sebep. Projenin <a href="http://code.google.com/p/flot/">web sayfası</a> ve <a href="http://groups.google.com/group/flot-graphs?pli=1">Google grubu</a> da kısmen aktif bir şekilde mevcut bulnumakta.</p>
+<p style="text-align: left">Olusturan kisiler basit bir kullanımı oldugunu idaa ediyorlar ve ben de bu konuda hemfikirim diyebilirim. Ama basitligine bakıp işlevselliginden ödün verildigini düsünmek büyük bir hata olur.
+Benim gibi kısa ve basit anlatımları (ve ayrından bolca uygulama :) ) sevenler için güzel bir yazı olacagını düsünüyorum. Sanırım gelistiriciler de aynı fikirde ki kütüphanenin yeteneklerini <a href="http://people.iola.dk/olau/flot/examples/">örneklerle</a> göstermenin daha iyi olacagını düsünmüsler.</p>
+Öncelikle kütüphaneyi <a href="http://code.google.com/p/flot/downloads/detail?name=flot-0.7.zip">buradan</a>
+indiriyoruz. Daha sonra html kodumuza import ediyoruz:
+
+[sourcecode language="javascript"]
+<script language="javascript" type="text/javascript" src="../jquery.js"></script>
+<script language="javascript" type="text/javascript" src="../jquery.flot.js"></script>
+[/sourcecode]
+
+Eger IE 9 dan daha önceki bi versiyon kullanıyorsanız excanvas ı da import etmeniz gerekecektir:
+[sourcecode language="javascript"]
+     <script language="javascript" type="text/javascript" src="excanvas.min.js"></script>
+[/sourcecode]
+Şu seviyede bilmemiz gereken plot fonksiyonun çalışma mantıgına bakacak olursak önceden olusturulmus bir placeholder a, kendisine verilen veri yığınını çizer:
+[sourcecode language="javascript"]
+    <!--   var plot = $.plot(placeholder, data, options -->            //plot fonksiyonunun genel yapısı
+    <div id="placeholder" style="width:600px;height:300px;"></div>     // placeholder olusturlması
+    <script type="text/javascript">
+    $(function () {
+    var d1 = [[0, 3], [4, 8], [8, 5], [9, 13]];                        // cizilecek veri dizisi
+    $.plot($("#placeholder"), [ d1 ]);                                 // cizme fonksiyonu
+    });
+    </script>
+[/sourcecode]
+Bu sekilde düzenledigimiz kodun cıktısı aşağıdaki gibi olur:
+
+<img src="http://desmond.imageshack.us/Himg714/scaled.php?server=714&amp;filename=ekrntsi.png&amp;res=medium" alt="Cıktı" />
+
+Burada söylemem gerekir ki bence plot fonksiyonunun calısma şekli bazen biraz yorucu olabiliyor. Örnegin eger ben sin fonksiyonunun cizmek istersem önce örneklemem sonra o örnek degerlerini plot fonksiyonuna vermem gerek. Kısacası plot sadece integer türlü nokta degerlerini veri olarak alıyor. Sade evet fakat bizleri ayrıntılarla ugrasmaktan kurtaracak bazı ayrıcalıklar yapılabilirdi.Sözü açılmışken sin fonksiyonunu cizmek icin kodumuza yeni bi veri yığını ekleyebiliriz:
+[sourcecode language="javascript"]
+     var d2 = [];
+    for (var i = 0; i < 14; i += 0.5)
+        d2.push([i, Math.sin(i)]);
+        $.plot($("#placeholder"), [ d1, d2 ]);
+[/sourcecode] 
+<img src="http://img101.imageshack.us/img101/2978/ekrntse.png" alt="Cıktı2" />
+İki cıktı arasındaki farktan da anlayacagımız gibi plot aynı zamanda autoscale özelligine de sahip. Sadece d1 dizisi varken x=9 ,y=14 sinir degerlerini d2 nin de eklenmesiyle ona uyarlarayak x=14 y=15 e cekmis. Tabiki sınırları elle de ayarlayabiliriz. Buna daha sonra değineceğiz.
+
+Veri dizisinde koyacagınız null degeri, kendisinden önceki ve sonraki noktalar arasında cizgi cizilmeyecegini belirtir. Ayrık fonksiyonların ciziminde isinize yarayacak bir ayrıntı.
+
+Tabii ki her zaman düz bi çizgi işimizi görmeyecektir. Plot fonksiyonunda options diye geçen kısım da burada devreye giriyor. tek bir veri yıgını için seçilebilecek özellikler ve girdi türleri aşagıdaki gibidir:
+<pre> 
+    color: renk veya sayı
+    label: string
+    data: veri yıgını
+    lines: özel
+    bars: özel
+    points: özel
+    xaxis: sayı
+    yaxis: sayı
+    clickable: bool
+    hoverable: bool
+    shadowSize: sayı</pre>
+Yukaridaki örneklerden de anlayacagımız gibi bir cizim için bu özelliklerin hepsine deger atanması gerekli degil. Hepsi default degerlere sahip(data dısında). Bunları içeren bir örnegi incelememiz gerekirse:
+[sourcecode language="javascript"]
+<script type="text/javascript">
+$(function () {
+    var d1 = [];
+    for (var i = 0; i < 14; i += 0.5)
+        d1.push([i, Math.sin(i)]);
+    var d2 = [[0, 3], [4, 8], [8, 5], [9, 13]];
+    var d3 = [];
+    for (var i = 0; i < 14; i += 0.5)
+        d3.push([i, Math.cos(i)]);
+    var d4 = [];
+    for (var i = 0; i < 14; i += 0.1)
+        d4.push([i, Math.sqrt(i * 10)]);
+    var d5 = [];
+    for (var i = 0; i < 14; i += 0.5)
+        d5.push([i, Math.sqrt(i)]);
+    var d6 = [];
+    for (var i = 0; i < 14; i += 0.5 + Math.random())
+        d6.push([i, Math.sqrt(2*i + Math.sin(i) + 5)]);
+    $.plot($("#placeholder"), [{data:d1,lines:{show:true,fill:true}},{data:d2,bars:{show:true}},{data:d3,points:{show:true}},{data:d4,lines:{show:true}},{data:d5,lines:{show:true},points:{show:true}},{data:d6,lines:{show:true,steps:true }}]);
+});
+[/sourcecode]
+cıktı ya <a href="http://people.iola.dk/olau/flot/examples/graph-types.html">buradan</a> ulaşabilirsiniz.
+
+Eksenlerin düzenlenmesi için xaxis ve yaxis özellikleri kullanılır. Örnegin yatay eksende rakamlar degil de trigonometrik ölçülerin gösterilmesini istiyorsak:
+[sourcecode language="javascript"]
+   xaxis: {
+            ticks: [0, [Math.PI/2, "\u03c0/2"], [Math.PI, "\u03c0"], 
+            [Math.PI * 3/2, "3\u03c0/2"], [Math.PI * 2, "2\u03c0"]]
+        }
+[/sourcecode]
+şeklinde düzenleyebiliriz.
+
+Dikey eksene de alt ve üst sınır vermek istersek(örnegin -2,2 aralığı):
+[sourcecode language="javascript"]
+   yaxis: {
+            ticks: 10,
+            min: -2,
+            max: 2
+        }
+[/sourcecode]
+Hazır elimiz degmisken arkaplan rengini de degistirelim:
+[sourcecode language="javascript"]  
+grid: {
+            backgroundColor: { colors: ["#fff", "#eee"] }
+        }
+[/sourcecode]
+Buralarda kullanılan ticks özelligi hassaslıgı belirtiyor. Örnegin -2 2 aralıgını 10  esit parcaya bölüyor.
+
+Plot fonksiyonuna verilecek özellikler de önceden hazırlanılabiliyor. Örneğin:
+[sourcecode language="javascript"]  
+var options = {
+        series: { shadowSize: 0 }, // drawing is faster without shadows
+        yaxis: { min: 0, max: 100 },
+        xaxis: { show: false }
+    };
+$.plot($("#placeholder"), data,options);
+[/sourcecode]
+
+Plot cizimi kendine ayrılan alanı temizleyerek yapıyor. Yani bir çizimi digerinin üzerine yapmak mümkün degil. Bu da bazı durumlarda bir eksi olarak sayılabilir.Bunun için su anda yapabilecegimiz tek şey ikisini aynı anda çizmektir.
+
+Eger cizimimizdeki verileri veya özellikleri daha sonra kullanmamız gerekecekse(interaktif bir uygulamada) bunu için cizime bir pointer atayabliyoruz:
+
+[sourcecode language="javascript"]  
+var plot = $.plot(placeholder, data, options);
+[/sourcecode]
+
+Daha sonra bu degisken üzerinden işlem yapabiliriz:
+
+[sourcecode language="javascript"]  
+var axes = plot.getAxes();
+[/sourcecode]
+
+Bu sekide kullanabileceginiz fonksiyonların bazılarına bakmamız gerekirse:
+
+[sourcecode language="javascript"]
+highlight(series, datapoint)    //verilen serideki verilen noktayi işaretler
+unhighlight(series, datapoint) or unhighlight()   //işaretleri kaldırır
+setData(data)    //plot'un kullandıgı datayı degistirebiliriz.(Degisiklik görünmez)
+draw()    //Tekrar cizer.Örnegin data degismisse gereklidir.
+triggerRedrawOverlay()    //Süreki cizimi yenileme
+width()/height()    //genislik/yükseklik ayarı.                                                   
+getData()    //Plot tarafından kullanılan datayi geri döndürür.
+getPlaceholder()    //Kullanılan placeholder'ın id sini geri döndürür.
+getOptions()    //Özellikleri geri döndürür.
+[/sourcecode]
+
+Burada gördüğümüz gibi bir cizimin üstüne baska bir cizim yapmak icin ilk cizimin verilerini tutmamız gerekli degil:
+[sourcecode language="javascript"]
+var plot = $.plot(placeholder, data, options);
+plot.setData([plot.getData,newData]);
+plot.draw();
+[/sourcecode]
+
+Şimdiye kadar plot fonksiyonun çalışma mantıgını ve özelliklerini genel olarak anlattık. Daha ayrıntılı bilgiye <a href="http://people.iola.dk/olau/flot/API.txt">buradan</a> ulasabilirsiniz. İyi çalışmalar.

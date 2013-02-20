@@ -1,0 +1,283 @@
+--- 
+title: "Zemberek K\xC3\xBCt\xC3\xBCphanesi ile Java Uygulamas\xC4\xB1"
+wordpress_url: http://blog.4primes.com/?p=262
+layout: post
+date: 2011-07-07 11:32:52 +03:00
+wordpress_id: 262
+---
+ Merhaba arkadaşlar,  daha önceki  yazılarımda sizlere<a href="http://blog.4primes.com/2011/06/platform-tanimayan-java-dili/"> java  </a>ve <a href="http://blog.4primes.com/2011/06/zemberek-kutuphanesi-ve-genel-ozellikleri/">zemberek kütüphanesiyle </a>ilgili genel bilgiler vermiştim.  Bu yazımda da Zemberek kütüphanesini kullanarak oluşturduğum  küçük java  uygulamamdan bahsedeceğim.  
+Ama baştan uyarayım ki javayla  tanışalı çok olmadı dolayısıyla  daha basit şekilde yazılabilirdi yada  şu kısımda başka bir  yöntem de kullanılabilirdi dediğiniz yerler olabilir. Bu durumları acemiliğime vermeniz  gerekecek :)
+
+İlk olarak uygulamamda kullandığım Zemberek  kütüphanesi  fonksiyonlarını tanıyalım:
+<strong>hecele:</strong> String türünden bir  değişken alıp hecelenmiş halini string dizisi şeklinde döndürür.
+   Giriş: Ağaçlar                                            
+   Çıkış: [a, ğaç, lar]
+<strong>asciiyeDonustur :</strong>  Aldığı string türünde değişkenin  ASCII karakterlere dönüşmüş  halini döndürür.
+   Giriş: Ağaçlar
+   Çıkış: Agaclar
+<strong>oner :</strong>  Aldığı kelimenin harfleriyle oynayarak  yeni kelimeler önerir.Daha çok yanlış kelime girildiğinde doğrusunun bulunması için kullanılır.Bir harf eksikliği, bir harf fazlalığı veya yeri yanlış kullanılmış yan yana harf hatalarını giderecek şekilde çözümler üretiyor.
+   Giriş: Mrhaba
+   Çıkış: Merhaba
+<strong>kelimeCozumle: </strong> String türü bir değişken alıp  Kelime sınıfı cinsinden  bir diziyle aldığı kelimenin olası tüm  çözümlemelerini (kök+ekler)  döndürür.
+   Giriş: Ağaçlar
+   Çıkış: [ Kok: ağaçla, FIIL ]  Ekler: FIIL_GENISZAMAN_IR
+           [ Kok: ağaç, ISIM ]  Ekler: ISIM_COGUL_LER
+           [ Kok: ağaç, ISIM ]  Ekler: ISIM_DONUSUM_LE + FIIL_GENISZAMAN_IR
+           [ Kok: ağaç, ISIM ]  Ekler: ISIM_KISI_ONLAR_LER
+<strong>kelimeDenetle:</strong>  Aldığı string türü değişkenin  doğru yada yanlış yazıldığına dair bool değer döndürür.
+   Giriş: Ağaçlar
+   Çıkış:1 (Doğru yazıldığını gösterir.)
+<strong>kelimeAyrıştır: </strong> Aldığı string türü değişkene ait olası ayrıştırma sonuçlarını (kök ve ek oluşumları)  string dizisi şeklinde ifade eden liste döndürür.
+   Giriş: Ağaçlar
+   Çıkış: [ağaç, lar]
+           [ağaçla, r]
+           [ağaç, la, r]
+           [ağaç, lar]
+
+<!--more-->
+Zemberek kütüphanesi kullanabilmemiz için kütüphanenin  jar.  dosyalarını  yapacağımız uygulamanın lib.  kısmına eklemeliyiz. Bu dosyalara <a href="http://code.google.com/p/zemberek/downloads/list">buradan</a> ulaşabilirsiniz.Daha sonra projenizin herhangi bir yerinde  “import net.zemberek.erisim.Zemberek” sınıfını kullanarak fonksiyonlara erişebilirsiniz. Kullanılacak  fonksiyonlar için ayrıca import etmeniz gereken yerler olacaktır ama bunları bilmenize gerek yok siz fonksiyonları  kullandıkça  eclipse size import etmeniz gereken kısımlar  için uyarı verecektir.
+Şimdi gelelim benim küçük uygulamama; kullanıcının seçimine göre elle girilen veya dosyadan okutulan cümlenin yine kullanıcının seçimine göre yukarıda tanıttığım 6 işlemden herhangi  birinin yada hepsinin uygulanması işlemini gerçekleştiriyor.
+*Başlangıçta  dosyadan  okutma  yada elle girme işlemleri için yapılacak seçimi basit bir if yapısıyla hallettim.
+[sourcecode language="java"] 
+public static void main(String[] args) {
+     System.out
+       .println("Islem yapilacak cumleyi kullanicidan almak icin 1'i ,dosyadan okutmak icin 2'yi tuslayiniz.");
+        Scanner x = new Scanner(System.in);
+        int girdi = x.nextInt();
+        if (girdi == 2) {
+            dosyadanOku();
+
+        } else if (girdi == 1) {
+            kullanicidanAl();
+
+        }}
+[/sourcecode] 
+
+
+
+Şimdi de uygulamanın içindeki fonksiyonlara bakalım:
+*<strong>kullanıcıdanAl() fonksiyonu:</strong>
+&gt;&gt;İlk olarak Zemberek kütüphanesinin fonksiyonlarına erişebilmek için bir zemberek nesnesi oluşturdum.
+&gt;&gt;Bir string değişkeniyle kullanıcıdan alınan cümleyi  tuttum.
+&gt;&gt;Zemberek fonksiyonları kelime bazlı çalıştığından dolayı cümleyi kelime, kelime ayırmak için split() fonksiyonu kullandım.
+&gt;&gt;Split() fonksiyonunu kısaca açıklayacak olursam parametre olarak aldığı değere göre stringi parçalayıp bir dizide tutan fonksiyon diyebilirim.
+&gt;&gt;Daha sonra kullanıcının yapacağı işlemi seçmesi  için bol if’li bir yapı kurdum. Bu kısımda switch-case de kullanılabilirdi hatta daha iyi olurdu :)
+[sourcecode language="java"]
+ public static void kullanicidanAl() {
+        Zemberek z = new Zemberek(new TurkiyeTurkcesi());
+        Scanner m = new Scanner(System.in);
+        Scanner v = new Scanner(System.in);
+        String k;
+        System.out.println("lutfen cumleyi giriniz:");
+        k = m.nextLine();
+        String dizi[] = null;
+        dizi = k.split(" ");
+        System.out.println("Uygulanacak islemi secip numarasnı giriniz:");
+        System.out
+                .print("1.Hecele\n2.Asciya donustur\n3.Kelime denetle\n4.Kelime cozumle\n5.Kelime ayristir\n6.Oneriler\n7.Hepsi");
+        int l;
+        l = v.nextInt();
+        System.out.println("İslem yapilacak  cumle:" + k);
+        if (l == 1) {
+            heceler(k, dizi, z);
+        }
+        if (l == 2) {
+            asciDonustur(k, z);
+        }
+        if (l == 3) {
+            kelimeDenetle(dizi, z);
+        }
+        if (l == 4) {
+            kelimeCozumle(dizi, z);
+        }
+        if (l == 5) {
+            kelimeAyristir(dizi, z);
+        } else if (l == 6) {
+            oneriler(dizi, z);
+        } else if (l == 7) {
+            heceler(k, dizi, z);
+            asciDonustur(k, z);
+            oneriler(dizi, z);
+            kelimeDenetle(dizi, z);
+            kelimeCozumle(dizi, z);
+            kelimeAyristir(dizi, z);
+        }
+
+    }
+[/sourcecode] 
+*<strong>dosyadanOku() fonksiyonu:</strong>
+&gt;&gt;Bu fonksiyon için de bir tane zemberek nesnesi oluşturdum.
+&gt;&gt;Bir string değişkeniyle birlikte  okunması gereken adresi kullanıcıdan aldım.
+&gt;&gt;Okuttuğum  cümleyi yine bir string değişkeniyle tutup split() fonksiyonu ile kelim,  kelime ayırdım.
+&gt;&gt;Devamında yine bol if’li bir yapıyla kullanıcının uygulayacağı işlemi seçmesini sağladım.
+
+
+[sourcecode language="java"]
+
+public static void dosyadanOku() {
+        Zemberek z = new Zemberek(new TurkiyeTurkcesi());
+        Scanner n = new Scanner(System.in);
+        Scanner q = new Scanner(System.in);
+        BufferedReader oku;
+        String adres;
+        System.out.println("Adresi giriniz:");
+        adres = n.nextLine();
+        File dosya = new File(adres);
+        String s = "";
+        try {
+            oku = new BufferedReader(new FileReader(dosya));
+            while (oku.ready()) {
+                s += oku.readLine();
+            }
+            oku.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String dizi2[] = null;
+        dizi2 = s.split(" ");
+        System.out.println("Uygulanacak islemi secip numarasini giriniz:");
+        System.out
+                .print("1.Hecele\n2.Asciya donustur\n3.Kelime denetle\n4.Kelime cozumle\n5.Kelime ayristir\n6.Oneriler\n7.Hepsi ");
+        int l;
+        l = q.nextInt();
+        System.out.println("İslem yapilacak  cumle:" + s);
+        if (l == 1) {
+            heceler(s, dizi2, z);
+        }
+        if (l == 2) {
+            asciDonustur(s, z);
+        }
+        if (l == 3) {
+            kelimeDenetle(dizi2, z);
+        }
+        if (l == 4) {
+            kelimeCozumle(dizi2, z);
+        }
+        if (l == 5) {
+            kelimeAyristir(dizi2, z);
+        } else if (l == 6) {
+            oneriler(dizi2, z);
+        } else if (l == 7) {
+            heceler(s, dizi2, z);
+            asciDonustur(s, z);
+            oneriler(dizi2, z);
+            kelimeDenetle(dizi2, z);
+            kelimeCozumle(dizi2, z);
+            kelimeAyristir(dizi2, z);
+        }
+        
+    } 
+[/sourcecode] 
+
+*<strong>heceler() fonksiyonu:</strong>
+&gt;&gt;Bu fon<code></code>ksiyonun  parametre olarak aldığı  dizinin(kelimelerin her birinin ayrı eleman olarak tutulduğu split() fonksiyonu sayesinde oluşturulan dizi) tüm elemanları için Zemberek kütüphanesinin hecele() fonksiyonunu kullanır ve sonuç olarak cümlenin  her bir kelimesinin  hecelenmiş halini ekrana bastırır.
+
+
+[sourcecode language="java"] 
+public static void heceler(String k, String[] dizi, Zemberek z) {
+
+        int a = 0;
+        while (a < dizi.length) {
+            String[] hecelenmis = z.hecele(dizi[a]);
+            System.out.println(">>>" + dizi[a]
+                    + "  kelimesinin  hecelenmis hali:"
+                    + Arrays.toString(hecelenmis));
+            a++;
+        }
+        System.out.println("\n");
+    }
+
+[/sourcecode] 
+
+*<strong>asciDonustur() fonksiyonu:</strong>
+&gt;&gt;Bu fonksiyon aldığı string değişkeni için Zemberek kütüphanesinin asciiyeDonustur fonksiyonu kullanılır ve sonuçta  alınan stringin ASCII karakterlere dönüşmüş hali ekrana basılır.
+
+
+
+[sourcecode language="java"] 
+ public static void asciDonustur(String k, Zemberek z) {
+        String l = z.asciiyeDonustur(k);
+        System.out.println(">>>Asci ya donusmus hali:");
+        System.out.print(l);
+        System.out.println("\n");
+    }
+[/sourcecode]
+*<strong>oneriler() fonksiyonu:</strong>
+&gt;&gt;Bu fonksiyon   parametre olarak aldığı dizinin bütün elemenları için Zemberek kütüphanesinin oner() fonksiyonunu kullanır ve sonuçta her bir kelime için olası tüm önerileri ekrana bastırır.
+[sourcecode language="java"] 
+
+public static void oneriler(String dizi[], Zemberek z) {
+        int b = 0;
+        while (b < dizi.length) {
+            String[] oneriler = z.oner(dizi[b]);
+            System.out.println(">>>" + dizi[b] + " kelimesi icin oneriler:");
+            for (int i = 0; i < oneriler.length; i++) {
+                System.out.println(oneriler[i]);
+            }
+            b++;
+        }
+        System.out.println("\n");
+    }
+[/sourcecode]
+
+*<strong>kelimeCozumle() fonksiyonu:</strong> 
+&gt;&gt;Bu fonksiyon  parametre olarak aldığı dizinin bütün elemenları için Zemberek kütüphanesinin kelimeCozumle() fonksiyonunu kullanır ve sonuçta her bir kelime için olası tüm çözümlemeleri(kök+ekler)  ekrana bastırır.
+[sourcecode language="java"]
+ public static void kelimeCozumle(String dizi[], Zemberek z) {
+        int d = 0;
+        while (d < dizi.length) {
+            System.out.println(">>>" + dizi[d] + " için cozumlemeler:");
+            Kelime[] cozumler = z.kelimeCozumle(dizi[d]);
+            for (Kelime kelime : cozumler) {
+                System.out.println(kelime);
+            }
+            d++;
+        }
+        System.out.println("\n");
+    } 
+[/sourcecode]
+
+*<strong>kelimeDenetle() fonksiyonu:</strong>
+
+&gt;&gt;Parametre olarak aldığı dizinin bütün elemanları için Zemberek kütüphanesinin kelimeDenetle() fonksiyonu kullanılır ve sonucun 0 /1 olmasına göre ekrana kelimenin doğru yazılıp yazılmadığını bastırır.
+[sourcecode language="java"] 
+public static void kelimeDenetle(String dizi[], Zemberek z) {
+        int c = 0;
+        while (c < dizi.length) {
+            if (z.kelimeDenetle(dizi[c]))
+                System.out
+                        .println(">>>" + dizi[c] + " kelimesi doğru yazilmis");
+            else
+                System.out.println(">>>" + dizi[c]
+                        + " kelimesi doğru yazilmamis");
+            c++;
+        }
+        System.out.println("\n");
+    }
+
+[/sourcecode] 
+
+
+
+
+*<strong>kelimeAyrıstır() fonksiyonu:</strong>
+&gt;&gt;Parametre olarak aldığı dizinin bütün elemanları için Zemberek kütüphanesinin kelimeAyrıstır() fonksiyonu kullanılır  ve olası tüm ayrıştırmaları listeler.
+
+[sourcecode language="java"] 
+public static void kelimeAyristir(String dizi[], Zemberek z) {
+        int h = 0;
+        while (h < dizi.length) {
+            System.out.println(">>>" + dizi[h] + " için ayristirma sonuclari:");
+            List<String[]> ayrisimlar = z.kelimeAyristir(dizi[h]);
+            for (String[] strings : ayrisimlar)
+                System.out.println(Arrays.toString(strings));
+            h++;
+        }
+    }
+[/sourcecode] 
+
+
+
+Yazı uzadıkça benim bile bırakıp kaçasım gelirken sizden  sonuna kadar okumanızı beklemek tuhaf olur. Sabredip bu kısma kadar okuyan varsa <a href="https://github.com/acemimhnds">github hesabımdan </a>uygulamamın tamamına bakabilir, indirip üzerinde çalışabilir :) Hadi kolay gelsin..
+

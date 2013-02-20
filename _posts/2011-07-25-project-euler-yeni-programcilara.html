@@ -1,0 +1,79 @@
+--- 
+title: "Project Euler, Yeni Programc\xC4\xB1lara"
+wordpress_url: http://blog.4primes.com/?p=425
+layout: post
+date: 2011-07-25 13:02:19 +03:00
+wordpress_id: 425
+---
+ <p>  <a href="http://projecteuler.net/">Project Euler</a> 2001 yılında kurulmuş, şu an 150 bini aşkın kullanıcısı bulunan, verilen algoritmik ve matematiksel problemlerin (şu an 344 tane) bilgisayar programlarıyla çözümünü herdefleyen bir web sitesi. Bu yazıda size siteyi bilmeyenler için ve programlamada yeni olanlar için soruların çözümüne yönelik birkaç ipucu vermek istiyorum.
+</p> 
+<p> 
+   Öncelikli olarak sorulara baştan başlarsanız ve önceden bir iki program yazmışsanız aklınıza hemen soruların birkaç for ile çözülebileceği gibi bir izlenim oturabilir. Sakın buna kanmayın. Belki ilk birkaç soru bu basitlikte görünebilir ama bunları ısınma turları olarak almanız yararınızadır.
+</p>
+<p> 
+   İlk sorular için birazcık programlama bilgisinin yeterli olacağını kabul ediyorum. Ama bir noktadan sonra programlamadan çok matematik bilgisine ihtiyaç duyacaksınız. Bilgisayarın işlem gücünü gözünüzde fazla büyütmeyin. 45 dakika süren programlar yazmaya başladığınızda farklı çözüm yolları aramanın vakti gelmiş demektir. 
+</p>  
+  
+<p> 
+   Çözüm yöntemi geliştirme, matematik bilgisini kullanma konusunda idman yapmak için ilk soruları brute focre ile değil akıllı çözümlerle çözün. Örnegin 1. sorunun çözümünü brute force ile yaparsak(c++ için):
+</p>
+[sourcecode language="C"]
+  
+int sum=0;
+for(int i=0; i<1000 i++)
+  {
+    if(i%3==0 || i%5==0)
+    sum+=i;
+  }
+
+[/sourcecode] 
+<p>  
+  Gayet basit görünüyor değilmi? Peki bilgisayar bu işlem nasıl yapıyor? 1000 sayı için 3 ün katlarını bulmak için 1000 test yapar. 1000 e kadar 3 ün 333 katı olduğundan 1000-333=667 test de 5 in katlarını bulmak için yapar dolayısıyla toplammda 1667 if testi yapılır. Peki akıllı bir algoritma geliştirirsek:
+[sourcecode language="C"]
+Toplamını bulacağımız sayılar:
++ 3,6,9,12,15,18,21...  (3k)
++ 5,10,15,20,25,30...   (5k)
+Tekrarları çıkarırsak:
+- 15,30,45,90...        (15k-ekokları)
+[/sourcecode] 
+</p> 
+<p> 
+  Birazcık matematik eklenmiş kod hali:
+</p> 
+[sourcecode language="C"]
+//İlk serinin toplamı:
+// 3*1+3*2+3*3+3*4+3*5+...+3*333
+//=3*(1+2+3+4+5+6+...+333) (n*(n+1)/2)
+//=3*((333*334)/2)
+
+int sinir=1000;
+int k3=3*(sinir/3*(sinir/3+1))/3   //int tür olduğu için 1000/3'den sınırı asmayan 3 ün katı olan
+                                   //en büyük tamsayı gelir (333) 
+int k5=5*(sinir/5*(sinir/5+1))/5
+int k15=15*(sinir/15*(sinir/15+1))/15
+int sum=k3+k5-k15;
+[/sourcecode] 
+
+<p>
+Peki bu kodu niçin böyle karıştırdık. 2. halinde hiçbir if testi yok(1667 den 0 a !). Direk program koşuyor. Bunu ne kadar önemli olduğunu tecrübe edilmediği sürece anlamak imkansız. Fakat basitçe çok büyük bir sayı için iki kodu da deneyip bu kadar basit bir işlem için bile ne kadar süre farkı olduğunu görebilirsiniz. İlk sorular için sıkıcı bir süreç olsa da ilerisi için alıştırma olacaktır.
+</p>
+
+<p> 
+  Soruların çözümünde ortak olarak kullanacağınız bazı fonksiyonlar oluşturmak da yararınıza olacaktır.
+Örneğin; asal sayıları bulan, kombinasyon oluşturan, asallık testi yapan, palindromluk testi yapan...
+</p>
+
+<p> 
+  Ayrıca bazı yardımcılar kullanmanızı da tavsiye edeceğim. Mantıksal arama motoru olarak çalışan <a href="http://www.wolframalpha.com/">WolframAlpha</a> gerçekten işinize yarayacaktır. Ve birazcık <a href="http://www.haskell.org/haskellwiki/Haskell/">Haskell</a> bilgisi hayatınızı daha yaşanılabilir kılacaktır :).  
+Örneğin ilk sorunun haskelldeki çözümüne bakmak gerekirse( <a href="http://tryhaskell.org/">buradan</a> deneyebilirsiniz.):
+[sourcecode language="C"]
+  sum[x|x<-[1..99­9],mod x 3==0 || mod x 5==0]
+[/sourcecode] 
+</p>
+
+<p>
+  Kısacası algoritmik zekanızı ve programlamanızı geliştirmeniz için hem eğlenceli hem de kaliteli bir yol arıyorsanız projecteuler güzel bir başlama noktası olacaktır..
+</p> 
+<p> 
+</p> 
+
