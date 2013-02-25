@@ -2,8 +2,7 @@
 title: "Play Model S\xC4\xB1n\xC4\xB1flar\xC4\xB1 Aras\xC4\xB1ndaki \xC4\xB0li\xC5\x9Fkilerin Bulunmas\xC4\xB1"
 wordpress_url: http://blog.4primes.com/?p=588
 layout: post
-date: 2011-08-06 14:27:38 +03:00
-wordpress_id: 588
+author: "Ali Emre Doğan"
 ---
 Bir önceki yazımda play framework model sınıfları arasındaki ilişkilerden bahsedip, bu ilişkilerin bulunması kısmını sonraki yazımda ele alacağımı belirtmiştim. Şimdi bu ilişkileri nasıl bulduğumuz, hangi yapıları kullandığımız ve verileri nasıl tuttuğumuzdan bahsetmeye çalışacağım.
 
@@ -11,7 +10,7 @@ Play model sınıfları arasındaki ilişkilerin annotationlar yardımıyla sağ
 
 3 farklı class yapısı oluşturduk, bunlara Model, Member ve Association isimlerini verdik. Model class'ı @Entity annotation'ından sonra gelen modellerin adlarını ve tablo adları gibi diğer bilgilerini tuttuğumuz classtı. Member class'ı ise bu her bir modelin memberları hakkında bilgi veren, ve eğer varsa diğer modellerin memberları ya da direk modellerle olan ilişkileri tutacağımız Associaation class'ına erişeceğimiz association bilgisi içeren classtı. İlişkileri tuttuğumuz Association class'ı da hedef modelin adı ve ilişki tipi bilgisini içermektedir. Şimdi bu classlara gör göz atalım.
 
-[sourcecode lang="java"]
+{% highlight java linenos %}
 public class Model {
      String name;
      String tableName;
@@ -24,57 +23,60 @@ public class Member {
      Association association; 
 }
 
-
 public class Association {
      String targetModelName;
      String type;
-}[/sourcecode]
+}
+{% endhighlight %}
 
 Şimdi de bu classlar içindeki memberları setlenecek verileri yani ilişkilerin bulunup bu planladığımız veri formatında tutulması işlemine bir göz atalım.
 
 Bu yapının bir modül olacağından söz etmiştim, ama ilk etapta bir plugin yapısı oluşturduk ve o yapıyı kullandık. Modüle dönüştürme kısmını daha sonra yapacağız. Evet bir plugin yapısı oluşturduk, bu pluginin uygulama başlarken çalışması ve taramaları yapması için;
 
-[sourcecode lang="java"]
+{% highlight java linenos %}
 public class MyPlugin extends PlayPlugin {
-     @Override
-     public void onApplicationStart() {
-     ... }}[/sourcecode]
+    @Override
+    public void onApplicationStart() {
+    ... 
+    }
+}
+{% endhighlight %}
 
 dememiz yeterli oldu. @Override ve onApplicationStart fonksiyonu bu imkanı bize sağlıyor. Peki uygulama çalışmaya başlar başlamaz bizim pluginimiz ne yapıyor? Play'in ClassLoader isimli bir fonksiyonu var. Classlar içerisinde gezinmek için oluşturulmuş bir fonksiyon, yani tam bize lazım olan fonksiyon. İşte biz bu yapıya, @Entity annotation'ına göre arama yaptırıp her bir modeli ayrı ayrı listeleyerek işleme başladık.
 
-[sourcecode lang="java"]
-List<Class> entities = Play.classloader.getAnnotatedClasses(Entity.class);[/sourcecode]
+{% highlight java %}
+List<Class> entities = Play.classloader.getAnnotatedClasses(Entity.class);
+{% endhighlight %}
 
 Bu classları listeleyip for() yapısı kullanarak hepsinin içerisinde teker teker arama yaptık. Aradığımız annotationlar ise şunlar: @Column, @JoinColumn, @OneToOne, @OneToMany, @ManyToOne ve @ManyToMany. Bu arama işlemlerini @OneToOne ve @OneToMany için şöyle yaptık:
 
-[sourcecode lang="java"]
+{% highlight java %}
 if (annotation.annotationType().equals(OneToMany.class)) {
-     OneToMany oneToMany = (OneToMany) annotation;
-     Association association = new Association();
-     association.type = "OneToMany";
-     Type genericType = field.getGenericType();
-     if (genericType instanceof ParameterizedType) {
-          ParameterizedType aType = (ParameterizedType) genericType;
-          Type fieldArgType = aType.getActualTypeArguments()[0];
-          association.targetModelName = ((Class) fieldArgType).getSimpleName();
-     }
-     member.association = association;
+    OneToMany oneToMany = (OneToMany) annotation;
+    Association association = new Association();
+    association.type = "OneToMany";
+    Type genericType = field.getGenericType();
+    if (genericType instanceof ParameterizedType) {
+        ParameterizedType aType = (ParameterizedType) genericType;
+        Type fieldArgType = aType.getActualTypeArguments()[0];
+        association.targetModelName = ((Class) fieldArgType).getSimpleName();
+    }
+    member.association = association;
+} else if (annotation.annotationType().equals(OneToOne.class)) {
+    OneToOne oneToOne = (OneToOne) annotation;
+    Association association = new Association();
+    association.type = "OneToOne";
+    association.targetModelName = field.getType().getSimpleName();
+    member.association = association;
 }
-
-else if (annotation.annotationType().equals(OneToOne.class)) {
-     OneToOne oneToOne = (OneToOne) annotation;
-     Association association = new Association();
-     association.type = "OneToOne";
-     association.targetModelName = field.getType().getSimpleName();
-     member.association = association;
-}[/sourcecode]
+{% endhighlight %}
 
 Target model ile ilişkisi Many türünden olan; @OneToMany ve @ManyToMany, yapılarında hedefteki modelin adını çekme kısmında biraz sorun yaşadık. Hazır buraya değinmişken, <a href="http://http://stackoverflow.com/">StackOverflow</a>'dan da bahsediyim. Yaşadığımız sorunu bu siteden araştırıp bulduk. Bir çok programlama dili ve framework alanında gerçekten expert seviyesine gelmiş şahısların bulunduğu bir ortam StackOverflow. Sıkıntınızı araştırıp ya da düzgün bir İngilizce ile sorduğunuzda çözüm bulamamanız neredeyse imkansız.
 
 Yukarıdaki şekilde diğer annotationlar için de teker teker tarama yaptıktan sonra elimizde verileri oluşturduğumuz 3 farklı class'ın memberlarına setleyip, ilk etapta bu veri formatında sakladık, daha sonra JSON formatına dönüştürdük. Bu verilerin JSON formatındaki yapısına örnek teşkil etsin diye, User modeli için oluşan yapıya bir göz atalım:
 
-[sourcecode lang="javascript"]
-"User": {
+{% highlight json %}
+"User" : {
     "name": "User",
     "tableName": "User",
     "superClassName": "CreatedType",
@@ -117,6 +119,9 @@ Yukarıdaki şekilde diğer annotationlar için de teker teker tarama yaptıktan
         "type": "String"
       }
     }
-  }[/sourcecode]
+  }
+{% endhighlight %}
 
-İyi çalışmalar.
+<p>
+  İyi çalışmalar.
+</p>

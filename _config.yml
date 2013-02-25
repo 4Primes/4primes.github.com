@@ -1,4 +1,5 @@
 permalink: /:title
+pygments: true
 auto: true
 paginate: 10
 paginate_files:
