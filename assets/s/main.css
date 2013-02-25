@@ -1,0 +1,410 @@
+html,
+button,
+input,
+select,
+textarea {
+    color: #222;
+}
+
+body {
+    font-size: 1em;
+    line-height: 1.4;
+    background-image:url('../i/bg.jpg');
+    background-repeat: no-repeat;
+    background-position: top center;
+    background-color: #f9faf3;
+}
+
+::-moz-selection {
+    background: #d6e194;
+    text-shadow: none;
+}
+
+::selection {
+    background: #d6e194;
+    text-shadow: none;
+}
+
+/*
+ * A better looking default horizontal rule
+ */
+
+hr {
+    display: block;
+    height: 1px;
+    border: 0;
+    border-top: 1px solid #ccc;
+    margin: 1em 0;
+    padding: 0;
+}
+
+
+img {
+    vertical-align: middle;
+}
+
+
+fieldset {
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+
+textarea {
+    resize: vertical;
+}
+
+.chromeframe {
+    margin: 0.2em 0;
+    background: #ccc;
+    color: #000;
+    padding: 0.2em 0;
+}
+
+/* ==========================================================================
+   4Primes classes
+   ========================================================================== */
+
+
+/* yardımcılar */
+.left{float:left;}
+.right{float:right;}
+.center{text-align:center;}
+.automargin{margin:0px auto;}
+.hidden{display:none;}
+.fullwidth{width:100%;}
+.block{display:block;}
+.vScroll{overflow-x:hidden;overflow-y:auto;}
+.Scroll {overflow:auto;}
+.autoheight{overflow:hidden}
+.noMargin { margin:0px !important;}
+.clear:before,
+.clear:after { content:"";display:table; }
+.clear:after { clear:both; }
+.clear { zoom:1;}
+.txtLeft { text-align:left;}
+.txtRight { text-align:right !important;}
+.bgWhite {background-color:#FFF !important; }
+.bgBlack {background-color:#000 !important; }
+.underline { text-decoration:underline; }
+.hide { display:none;}
+.relative { position:relative;}
+.w100 { width:100px; } .w200 { width:200px; }
+.mT5 { margin-top:5px; } .mT10 { margin-top:10px; } .mT20 { margin-top:20px; } 
+.mT30 { margin-top:30px; } .mT100 { margin-top: 100px;} .mB10 { margin-bottom:10px; } 
+.mB20 { margin-bottom:20px; }  .mB100 { margin-bottom:100px; }  .mR5 { margin-right: 5px;}  .mR10 { margin-right:10px; } .mR30 { margin-right:30px; } 
+.p10 { padding:10px; } .p10_0 { padding:10px 0;} .p0_20 { padding:0px 20px; } 
+
+header { position:fixed; top:0; width:100%; z-index: 900; }
+header .bar { position:absolute; top:0; left:0; width:100%; /* height:145px; */ height:7px;  background-image:url('../i/header_bar.gif'); background-position: top center; background-color: #25364b; }
+#logo { cursor: hand; width:311px; height:89px; background-image:url('../i/logo.png'); text-indent: -9999px; }
+#logo a { display:none; width:311px; height:89px; background-image:url('../i/logo.png'); background-position: 0 -89px; }
+nav { position:absolute; right:0; top:55px;}
+nav a { font-family: dosisbold; text-decoration: none; text-transform: uppercase; font-size:100%; color:#f2f2f2; padding:5px 10px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+nav a:hover { color:#fff; background-color: #428ac2; }
+
+section { margin-top: 150px; }
+
+.posts { width:100%; list-style: none; margin:0; padding:0; overflow:hidden;}
+.posts [class*="span"] { margin:0px !important; padding:0px !important;}
+.posts li { padding:20px 20px 50px 20px; background-color: #fefefe; list-style: none; margin-bottom: 35px; }
+.posts .cirDate { float:left; margin-top: 20px; padding:13px 21px; font-family: dosisbold; text-align: center; font-size: 34px; line-height: 34px; color:#bbbbbb; background-color: #e6e6e6; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
+.posts .cirDate span { font-size: 20px; line-height: 15px; display:block; }
+.posts h2 { font-family: dosismedium; color:#b0b0b0; font-size: 24px; line-height: 24px; padding-bottom: 15px; margin-bottom: 0px !important; background-image:url('../i/line.gif'); background-position: bottom; background-repeat: repeat-x; }
+.posts h2 a { color:#b0b0b0;  text-decoration: none; }
+.posts .author { font-family: dosismedium; color:#c8c8c8; font-size: 12px; line-height: 12px; letter-spacing: 1px;  }
+.posts .author span { color:#e7e7e7; }
+.posts .section {  font-family: dosisbook; color:#cdcdcd; padding-bottom: 20px; font-weight: normal; font-size: 16px; line-height: 22px; letter-spacing: 0; }
+.posts .more { outline:none; padding:7px 10px; color:#a8a8a8; background-color: #f5f5f5; text-decoration: none; font-family: dosisextrabold; font-size: 14px; line-height: 14px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
+
+.posts li:hover, .posts.detail li { background-color: #fff; }
+.posts li:hover .cirDate, .posts.detail li .cirDate { color:#d6e7ec; background-color: #70b1e0;  }
+.posts li:hover h2, .posts.detail li h2 { color:#555555; background-image:url('../i/line_hover.gif');  }
+.posts li:hover h2 a { color:#555555;  }
+.posts li:hover .author, .posts.detail li .author { color:#6b99b6; }
+.posts li:hover .section, .posts.detail li .section { color:#696969;}
+.posts li:hover .more, .posts.detail li .more { color:#708ab0; background-color: #dcf0ff;  }
+
+.posts .shareLink { padding: 20px; background-color: #f4f4f4; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
+
+.rightWidgets { position:fixed; margin-bottom: 50px; }
+.rightWidgets h4 { color:#555555; font-family: dosisbold; font-size: 16px; margin-bottom: 10px !important;}
+.rightWidgets .populerPosts { list-style: none; color:#555555; font-family: dosisbook; padding:0; margin:0;}
+.rightWidgets .populerPosts li:before,
+.rightWidgets .populerPosts li:after { content:"";display:table; }
+.rightWidgets .populerPosts li:after { clear:both; }
+.rightWidgets .populerPosts li { padding-bottom: 10px; zoom:1;}
+.rightWidgets .populerPosts a { color:#555555; text-decoration: none; }
+.rightWidgets .populerPosts a:hover {color:#000;}
+.rightWidgets .populerPosts .date {float:left; padding:15px 18px; margin-right: 10px; text-align: center; font-size: 22px; line-height:15px; color:#d6e7ec; background-color: #549ac8; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
+.rightWidgets .populerPosts .date span { display:block; font-size:12px; line-height: 11px;}
+
+.rightWidgets .search { font-size: 12px; color:#555555; font-family: dosisbook; padding:4px 10px; margin-bottom: 20px;}
+.rightWidgets .categories { list-style: none; padding:0; margin:0; }
+.rightWidgets .categories a { list-style: none; color:#898989; font-family: dosisbook; font-size: 12px; text-decoration: none;  }
+.rightWidgets .categories a:hover { color:#000;}
+
+.rightWidgets .social { list-style: none;  margin:20px 0 0 0; padding:0;  }
+.rightWidgets .social li { float:left; margin-right: 5px; }
+.rightWidgets .social li:last-child { margin-right: 0px; }
+.rightWidgets .social li a { text-indent: -9999px;float:left; width:40px; height:41px; background-image:url('../i/social.png');}
+.rightWidgets .social li a.facebook { background-position: 0 0; }
+.rightWidgets .social li a.twitter { background-position:-40px 0;}
+.rightWidgets .social li a.gplus { background-position:-80px 0;}
+/* Pill style */
+#scrollUp {
+    display:none;
+    position:fixed;
+    bottom: 20px;
+    right: 20px;
+    background-image:url('../i/scroll.gif');
+    width:50px; height:50px;
+    text-indent: -9999px;
+}
+
+#scrollUp:hover {
+    background-position: 0 -50px;
+}
+
+
+/*
+ * Image replacement
+ */
+
+.ir {
+    background-color: transparent;
+    border: 0;
+    overflow: hidden;
+    /* IE 6/7 fallback */
+    *text-indent: -9999px;
+}
+
+.ir:before {
+    content: "";
+    display: block;
+    width: 0;
+    height: 150%;
+}
+
+/*
+ * Hide from both screenreaders and browsers: h5bp.com/u
+ */
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+/*
+ * Hide only visually, but have it available for screenreaders: h5bp.com/v
+ */
+
+.visuallyhidden {
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+}
+
+/*
+ * Extends the .visuallyhidden class to allow the element to be focusable
+ * when navigated to via the keyboard: h5bp.com/p
+ */
+
+.visuallyhidden.focusable:active,
+.visuallyhidden.focusable:focus {
+    clip: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    position: static;
+    width: auto;
+}
+
+.invisible {
+    visibility: hidden;
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: " "; /* 1 */
+    display: table; /* 2 */
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+
+.clearfix {
+    *zoom: 1;
+}
+
+/* ==========================================================================
+   EXAMPLE Media Queries for Responsive Design.
+   Theses examples override the primary ('mobile first') styles.
+   Modify as content requires.
+   ========================================================================== */
+
+/* # responsive ayarlar
+================================================== */
+@media only screen and (max-width: 1350px) { 
+
+}
+@media only screen and (min-width: 1350px) { 
+
+
+
+}
+
+@media only screen and (max-width: 1250px) { 
+
+
+}
+
+
+@media only screen and (max-width: 1024px) { 
+
+
+}
+
+@media only screen and (max-width: 980px) {
+  body { padding:0px !important;}
+  .container { padding:0 20px;}
+  nav a {  font-size:80%; }
+    .posts .cirDate { font-size: 26px; line-height: 26px; padding:10px 16px;  -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; }
+    .posts .cirDate span { font-size: 12px; line-height: 12px; }
+}
+
+@media only screen and (max-width: 850px) {
+
+}
+
+@media only screen and (max-width: 767px) {
+    nav { position:absolute; left:0; top:80px;}
+    .posts .cirDate { font-size: 20px; line-height: 20px;  float:right; margin-top: 25px;  padding:10px 16px;  -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; }
+    .posts .cirDate span { font-size: 12px; line-height: 12px; }
+    .rightWidgets { padding:20px; position:relative; margin-bottom: 20px; background-color: #ccf0ff;}
+}
+
+@media only screen and (max-width: 687px) {
+    .posts h2 { font-size: 20px; line-height: 20px; }
+
+}
+
+@media only screen and (max-width: 572px) {
+
+}
+@media only screen and (max-width: 500px) {
+
+} 
+
+@media only screen and (max-width: 400px) {
+ 
+
+}
+
+@media only screen and (max-width: 340px) {
+
+
+
+}
+
+@media only screen and (min-width : 321px) and (max-device-width : 480px) {
+
+}
+
+
+@media only screen and (max-width: 320px) {
+
+}
+@media only screen and (max-width: 241px) {
+
+}
+
+@media print,
+       (-o-min-device-pixel-ratio: 5/4),
+       (-webkit-min-device-pixel-ratio: 1.25),
+       (min-resolution: 120dpi) {
+    /* Style adjustments for high resolution devices */
+}
+
+/* ==========================================================================
+   Print styles.
+   Inlined to avoid required HTTP connection: h5bp.com/r
+   ========================================================================== */
+
+@media print {
+    * {
+        background: transparent !important;
+        color: #000 !important; /* Black prints faster: h5bp.com/s */
+        box-shadow: none !important;
+        text-shadow: none !important;
+    }
+
+    a,
+    a:visited {
+        text-decoration: underline;
+    }
+
+    a[href]:after {
+        content: " (" attr(href) ")";
+    }
+
+    abbr[title]:after {
+        content: " (" attr(title) ")";
+    }
+
+    /*
+     * Don't show links for images, or javascript/internal links
+     */
+
+    .ir a:after,
+    a[href^="javascript:"]:after,
+    a[href^="#"]:after {
+        content: "";
+    }
+
+    pre,
+    blockquote {
+        border: 1px solid #999;
+        page-break-inside: avoid;
+    }
+
+    thead {
+        display: table-header-group; /* h5bp.com/t */
+    }
+
+    tr,
+    img {
+        page-break-inside: avoid;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+
+    @page {
+        margin: 0.5cm;
+    }
+
+    p,
+    h2,
+    h3 {
+        orphans: 3;
+        widows: 3;
+    }
+
+    h2,
+    h3 {
+        page-break-after: avoid;
+    }
+}
+
+
+

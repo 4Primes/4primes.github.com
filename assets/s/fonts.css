@@ -1,0 +1,40 @@
+@font-face {
+    font-family: 'dosisbold';
+    src: url('../f/dosis-bold-webfont.eot');
+    src: url('../f/dosis-bold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../f/dosis-bold-webfont.woff') format('woff'),
+         url('../f/dosis-bold-webfont.ttf') format('truetype'),
+         url('../f/dosis-bold-webfont.svg#dosisbold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'dosisbook';
+    src: url('../f/dosis-book-webfont.eot');
+    src: url('../f/dosis-book-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../f/dosis-book-webfont.woff') format('woff'),
+         url('../f/dosis-book-webfont.ttf') format('truetype'),
+         url('../f/dosis-book-webfont.svg#dosisbook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'dosisextrabold';
+    src: url('../f/dosis-extrabold-webfont.eot');
+    src: url('../f/dosis-extrabold-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../f/dosis-extrabold-webfont.woff') format('woff'),
+         url('../f/dosis-extrabold-webfont.ttf') format('truetype'),
+         url('../f/dosis-extrabold-webfont.svg#dosisextrabold') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'dosismedium';
+    src: url('../f/dosis-medium-webfont.eot');
+    src: url('../f/dosis-medium-webfont.eot?#iefix') format('embedded-opentype'),
+         url('../f/dosis-medium-webfont.woff') format('woff'),
+         url('../f/dosis-medium-webfont.ttf') format('truetype'),
+         url('../f/dosis-medium-webfont.svg#dosismedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
