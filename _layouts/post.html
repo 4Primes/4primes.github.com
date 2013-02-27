@@ -50,7 +50,7 @@
                                 <div class="span2"><div class="cirDate">{{ page.date | date: "%d" }}<span>{{ page.date | date: "%b" }}</span></div></div>
                                 <div class="span10">
                                     <h2>{{ page.title }}</h2>
-                                    <p class="author"><span>Posted by</span> {{ page.author }} <span>|</span>  0 Comments, 3 Reactions</p>
+                                    <p class="author"><span>Posted by</span> {{ page.author }} <span>|</span>  <a href="{{ post.url }}#disqus_thread"></a></p>
                                     <div class="section">
                                         {{ content }}
 
@@ -87,7 +87,6 @@
                         <ul class="social">
                             <li><a href="http://facebook.com/4primes" class="facebook">Facebook</a></li>
                             <li><a href="http://twitter.com/4primes" class="twitter">Twitter</a></li>
-                            <li><a href="#" class="gplus">Google Plus</a></li>
                         </ul>
                         <div class="clear"><!--ie--></div>
                     </div>
@@ -111,11 +110,19 @@
                 disqus_shortname = '4primesblog',
                 disqus_url = 'http://blog.4primes.com{{ page.url }}',
                 disqus_identifier = '{{ page.url }}';
+
             (function() {
-             var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-             dsq.src = 'http://4primesblog.disqus.com/embed.js';
-             (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+                dsq.src = 'http://4primesblog.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
             })();
+
+            (function () {
+                var s = document.createElement('script'); s.async = true;
+                s.type = 'text/javascript';
+                s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+                (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+            }());
 
             (function(doc, script) {
               var js, 
