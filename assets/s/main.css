@@ -97,25 +97,27 @@ textarea {
 .p10 { padding:10px; } .p10_0 { padding:10px 0;} .p0_20 { padding:0px 20px; } 
 
 header { position:fixed; top:0; width:100%; z-index: 900; }
-header .bar { position:absolute; top:0; left:0; width:100%; /* height:145px; */ height:7px;  background-image:url('../i/header_bar.gif'); background-position: top center; background-color: #25364b; }
-#logo { cursor: hand; width:311px; height:89px; background-image:url('../i/logo.png'); text-indent: -9999px; }
-#logo a { display:none; width:311px; height:89px; background-image:url('../i/logo.png'); background-position: 0 -89px; }
-nav { position:absolute; right:0; top:55px;}
+header .bar { position:absolute; top:0; left:0; width:100%;  height:7px;  background-image:url('../i/header_bar.gif'); background-position: top center; background-color: #25364b; }
+header h1 { margin:15px 0 0 0 !important;}
+#logo a { display:block; text-indent: -9999px; width:250px; height:71px; background-image:url('../i/logo.png'); text-indent: -9999px;}
+nav { position:absolute; right:0; top:40px;}
 nav a { font-family: dosisbold; text-decoration: none; text-transform: uppercase; font-size:100%; color:#f2f2f2; padding:5px 10px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
 nav a:hover { color:#fff; background-color: #428ac2; }
 
-section { margin-top: 150px; }
+section { margin-top: 100px; }
 
 .posts { width:100%; list-style: none; margin:0; padding:0; overflow:hidden;}
 .posts [class*="span"] { margin:0px !important; padding:0px !important;}
 .posts li { padding:20px 20px 50px 20px; background-color: #fefefe; list-style: none; margin-bottom: 35px; }
-.posts .cirDate { float:left; margin-top: 20px; padding:13px 21px; font-family: dosisbold; text-align: center; font-size: 34px; line-height: 34px; color:#bbbbbb; background-color: #e6e6e6; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
-.posts .cirDate span { font-size: 20px; line-height: 15px; display:block; }
-.posts h2 { font-family: dosismedium; color:#b0b0b0; font-size: 24px; line-height: 24px; padding-bottom: 15px; margin-bottom: 0px !important; background-image:url('../i/line.gif'); background-position: bottom; background-repeat: repeat-x; }
+.posts .cirDate { float:left; position:relative; overflow:hidden; margin-top: 20px;  padding:15px 18px; font-family: dosisbold; text-align: center; font-size: 34px; line-height: 34px; color:#bbbbbb; background-color: #e6e6e6; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
+.posts .cirDate span { font-size: 14px; line-height: 14px; display:block; }
+.posts h2 { font-family: dosismedium; color:#9c9d9c; font-size: 24px; line-height: 24px; padding-bottom: 15px; margin-bottom: 0px !important; background-image:url('../i/line.gif'); background-position: bottom; background-repeat: repeat-x; }
 .posts h2 a { color:#b0b0b0;  text-decoration: none; }
 .posts .author { font-family: dosismedium; color:#c8c8c8; font-size: 12px; line-height: 12px; letter-spacing: 1px;  }
+.posts .author a {  color:#c8c8c8; text-decoration: none; }
 .posts .author span { color:#e7e7e7; }
-.posts .section {  font-family: dosisbook; color:#cdcdcd; padding-bottom: 20px; font-weight: normal; font-size: 16px; line-height: 22px; letter-spacing: 0; }
+.posts .section {  font-family: dosisbook; color:#a8abab; padding-bottom: 20px; font-weight: normal; font-size: 16px; line-height: 22px; letter-spacing: 0; }
+.posts .section a { color:#a8abab; text-decoration: underline;  }
 .posts .more { outline:none; padding:7px 10px; color:#a8a8a8; background-color: #f5f5f5; text-decoration: none; font-family: dosisextrabold; font-size: 14px; line-height: 14px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
 
 .posts li:hover, .posts.detail li { background-color: #fff; }
@@ -123,7 +125,10 @@ section { margin-top: 150px; }
 .posts li:hover h2, .posts.detail li h2 { color:#555555; background-image:url('../i/line_hover.gif');  }
 .posts li:hover h2 a { color:#555555;  }
 .posts li:hover .author, .posts.detail li .author { color:#6b99b6; }
+.posts li:hover .author a { color:#638da8; }
 .posts li:hover .section, .posts.detail li .section { color:#696969;}
+.posts li:hover .section a { color:#70b1e0; text-decoration: underline;  }
+
 .posts li:hover .more, .posts.detail li .more { color:#708ab0; background-color: #dcf0ff;  }
 
 .posts .shareLink { padding: 20px; background-color: #f4f4f4; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px; }
@@ -137,7 +142,7 @@ section { margin-top: 150px; }
 .rightWidgets .populerPosts li { padding-bottom: 10px; zoom:1;}
 .rightWidgets .populerPosts a { color:#555555; text-decoration: none; }
 .rightWidgets .populerPosts a:hover {color:#000;}
-.rightWidgets .populerPosts .date {float:left; padding:15px 18px; margin-right: 10px; text-align: center; font-size: 22px; line-height:15px; color:#d6e7ec; background-color: #549ac8; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
+.rightWidgets .populerPosts .date {float:left; overflow:hidden; padding:15px 12px; margin-right: 10px; text-align: center; font-size: 22px; line-height:15px; color:#d6e7ec; background-color: #549ac8; -moz-border-radius: 50px; -webkit-border-radius: 50px; border-radius: 50px; }
 .rightWidgets .populerPosts .date span { display:block; font-size:12px; line-height: 11px;}
 
 .rightWidgets .search { font-size: 12px; color:#555555; font-family: dosisbook; padding:4px 10px; margin-bottom: 20px;}
@@ -277,7 +282,7 @@ section { margin-top: 150px; }
   body { padding:0px !important;}
   .container { padding:0 20px;}
   nav a {  font-size:80%; }
-    .posts .cirDate { font-size: 26px; line-height: 26px; padding:10px 16px;  -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; }
+    .posts .cirDate { font-size: 26px; line-height: 26px; padding:12px 16px;  -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; }
     .posts .cirDate span { font-size: 12px; line-height: 12px; }
 }
 
@@ -286,8 +291,11 @@ section { margin-top: 150px; }
 }
 
 @media only screen and (max-width: 767px) {
-    nav { position:absolute; left:0; top:80px;}
-    .posts .cirDate { font-size: 20px; line-height: 20px;  float:right; margin-top: 25px;  padding:10px 16px;  -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; }
+    nav { position:absolute; left:0; top:65px;}
+    nav a { color:#3e5a94; }
+
+    header h1 { margin:7px 0 0 0 !important;}
+    .posts .cirDate { font-size: 20px; line-height: 20px;  float:right; margin-top: 25px;  padding:12px;  -moz-border-radius: 40px; -webkit-border-radius: 40px; border-radius: 40px; }
     .posts .cirDate span { font-size: 12px; line-height: 12px; }
     .rightWidgets { padding:20px; position:relative; margin-bottom: 20px; background-color: #ccf0ff;}
 }
@@ -405,6 +413,4 @@ section { margin-top: 150px; }
         page-break-after: avoid;
     }
 }
-
-
 
