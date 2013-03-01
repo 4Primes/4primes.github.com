@@ -117,7 +117,7 @@ section { margin-top: 100px; }
 .posts .author { font-family: dosismedium; color:#a9abaa; font-size: 12px; line-height: 12px; letter-spacing: 1px;  }
 .posts .author a {  color:#a9abaa; text-decoration: none; }
 .posts .author span { color:#b8b9ba; }
-.posts .section {  font-family: dosisbook; color:#a8abab; padding-bottom: 20px; font-weight: normal; font-size: 16px; line-height: 22px; letter-spacing: 0; }
+.posts .section, .posts .section tt {  font-family: dosisbook; color:#a8abab; padding-bottom: 20px; font-weight: normal; font-size: 16px; line-height: 22px; letter-spacing: 0; }
 .posts .section a { color:#a8abab; text-decoration: underline;  }
 .posts .section strong { font-family: dosisbold;}
 .posts .more { outline:none; padding:7px 10px; color:#8c8e87; background-color: #e6e6e6; text-decoration: none; font-family: dosisextrabold; font-size: 14px; line-height: 14px; -webkit-border-radius: 4px; -moz-border-radius: 4px; border-radius: 4px;}
@@ -128,7 +128,7 @@ section { margin-top: 100px; }
 .posts li:hover h2 a { color:#555555;  }
 .posts li:hover .author, .posts.detail li .author { color:#6b99b6; }
 .posts li:hover .author a, .posts.detail li .author a { color:#638da8; }
-.posts li:hover .section, .posts.detail li .section { color:#696969;}
+.posts li:hover .section, .posts li:hover .section tt, .posts.detail li .section { color:#696969;}
 .posts li:hover .section a, .posts.detail li .section a { color:#70b1e0; text-decoration: underline;  }
 
 .posts li:hover .more, .posts.detail li .more { color:#d6e7ec; background-color: #70b1e0;  }
