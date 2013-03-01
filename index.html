@@ -55,7 +55,7 @@ published: true
                                     <h2><a href="{{ post.url }}">{{ post.title | escape }}</a></h2>
                                     <p class="author"><span>Posted by</span> {{ post.author }} <span>|</span> <a href="{{ post.url }}#disqus_thread"></a></p>
                                     <div class="section">
-                                        {{ post.content | truncatewords: 53 }}
+                                        {{ post.content | strip_html | truncatewords: 53 }}
                                     </div>
                                     <a class="more" href="{{ post.url }}">Tamamını oku</a> 
                                 </div>
