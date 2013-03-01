@@ -346,10 +346,8 @@ section { margin-top: 100px; }
 
 @media only screen and (max-width: 767px) {
     #scrollUp { display:none !important;}
-    nav { position:absolute; left:0; top:65px;}
-    nav a { color:#3e5a94; }
-
-    header h1 { margin:7px 0 0 0 !important;}
+    nav { position:absolute; left:0; top:60px;}
+    header h1 { margin:12px 0 0 0 !important;}
     .posts .cirDate { float:right; margin-top: 0;  }
     .rightWidgets { padding:20px; position:relative; margin-bottom: 20px; background-color: #ccf0ff;}
 }
